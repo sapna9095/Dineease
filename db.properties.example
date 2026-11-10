@@ -1,0 +1,7 @@
+# DineEase Database Configuration Template
+# Copy this file to db.properties and set your local MySQL credentials
+db.host=localhost
+db.port=3306
+db.name=dineease
+db.user=root
+db.password=YOUR_PASSWORD_HERE

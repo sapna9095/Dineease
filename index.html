@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DineEase AI</title>
+    <meta name="description" content="Luxury restaurant management SaaS landing page for DineEase AI" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark"><i data-lucide="chef-hat"></i></div>
+          <div class="brand-title-wrap">
+            <div class="brand-title">DineEase AI</div>
+          </div>
+          <div class="brand-divider" aria-hidden="true"></div>
+          <div class="brand-subtitle">Restaurant Management System</div>
+        </div>
+
+        <nav class="main-nav" aria-label="Main navigation">
+          <span>Better Management</span>
+          <span>Better Food</span>
+          <span>Happier Guests</span>
+        </nav>
+      </header>
+
+      <main class="hero-section">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+          <section class="hero-copy" aria-labelledby="hero-title">
+            <h1 id="hero-title">
+              <span>Transform Your</span>
+              <span class="gold-block">Restaurant Business</span>
+              <span>with DineEase AI</span>
+            </h1>
+
+            <p class="hero-text">
+              A complete restaurant management system designed to simplify operations,
+              improve efficiency and help you serve better.
+            </p>
+
+            <div class="feature-strip" aria-label="Platform features">
+              <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="trending-up"></i></div>
+                <span>Streamline<br />Operations</span>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="clock-3"></i></div>
+                <span>Save<br />Time</span>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="users"></i></div>
+                <span>Better<br />Customer Experience</span>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+                <span>Grow<br />Your Business</span>
+              </div>
+            </div>
+          </section>
+
+          <aside class="login-panel" aria-label="Login form">
+            <div class="login-card">
+              <div class="login-brand">
+                <div class="login-brand-icon"><i data-lucide="chef-hat"></i></div>
+                <div class="login-brand-title">DineEase AI</div>
+                <div class="login-brand-subtitle">Restaurant Management System</div>
+              </div>
+
+              <h2>Welcome Back!</h2>
+              <p>Sign in to your account to continue</p>
+
+              <form id="loginForm" novalidate>
+                <div class="field-group">
+                  <label for="username" class="sr-only">Username</label>
+                  <div class="input-wrap">
+                    <span class="input-icon"><i data-lucide="user"></i></span>
+                    <input id="username" name="username" type="text" placeholder="Username" aria-invalid="false" />
+                  </div>
+                  <div class="error-text" id="usernameError" aria-live="polite"></div>
+                </div>
+
+                <div class="field-group">
+                  <label for="password" class="sr-only">Password</label>
+                  <div class="input-wrap password-wrap">
+                    <span class="input-icon"><i data-lucide="lock"></i></span>
+                    <input id="password" name="password" type="password" placeholder="Password" aria-invalid="false" />
+                    <button type="button" class="toggle-password" aria-label="Show password" aria-pressed="false">
+                      <i data-lucide="eye"></i>
+                    </button>
+                  </div>
+                  <div class="error-text" id="passwordError" aria-live="polite"></div>
+                </div>
+
+                <div class="remember-row">
+                  <label class="check-wrap">
+                    <input type="checkbox" name="remember" />
+                    <span>Remember me</span>
+                  </label>
+                  <a href="#" aria-label="Reset password">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                  <span class="btn-arrow"><i data-lucide="arrow-right"></i></span>
+                  <span>Login</span>
+                </button>
+              </form>
+
+              <div class="secure-login">
+                <span class="secure-line"></span>
+                <span class="secure-badge"><i data-lucide="shield-check"></i> Secure Login</span>
+                <span class="secure-line"></span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      <section class="features-strip" aria-label="Features">
+        <article class="feature-card">
+          <div class="feature-card-icon"><i data-lucide="utensils-crossed"></i></div>
+          <div class="feature-card-copy">
+            <h3>Table Management</h3>
+            <p>Efficiently manage table bookings and seating.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-icon"><i data-lucide="clipboard-list"></i></div>
+          <div class="feature-card-copy">
+            <h3>Order Management</h3>
+            <p>Track and manage orders in real-time.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-icon"><i data-lucide="box"></i></div>
+          <div class="feature-card-copy">
+            <h3>Inventory Control</h3>
+            <p>Keep track of stock levels and avoid shortages.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-icon"><i data-lucide="receipt-text"></i></div>
+          <div class="feature-card-copy">
+            <h3>Billing &amp; Payments</h3>
+            <p>Fast and secure billing with multiple payment options.</p>
+          </div>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card-icon"><i data-lucide="bar-chart-3"></i></div>
+          <div class="feature-card-copy">
+            <h3>Reports &amp; Analytics</h3>
+            <p>Get insights to make better decisions.</p>
+          </div>
+        </article>
+      </section>
+
+      <footer class="site-footer">
+        <div class="footer-left">
+          <div class="footer-mark"><i data-lucide="chef-hat"></i></div>
+          <div class="footer-brand">DineEase AI</div>
+          <div class="footer-divider"></div>
+          <div class="footer-subtitle">Restaurant Management System</div>
+        </div>
+        <div class="footer-version">v1.0</div>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
