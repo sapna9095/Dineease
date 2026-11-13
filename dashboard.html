@@ -398,6 +398,62 @@
       color: #BE8A30;
       font-size: 16px;
     }
+
+    /* MODAL STYLES */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(43, 27, 18, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      background: #FFF;
+      border-radius: 16px;
+      border: 1px solid #DCD3C5;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 500px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-header {
+      background: #3B2414;
+      color: #FFF;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      font-size: 17px;
+      color: #C8902E;
+      font-family: 'Playfair Display', serif;
+    }
+    .modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+    .modal-footer {
+      padding: 14px 20px;
+      background: #FAF6EF;
+      border-top: 1px solid #EFE8DC;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
@@ -612,24 +668,21 @@
           <h2>Jaipur Online Delivery & Live GPS Tracking</h2>
           <p>Express coverage for Sitapura, Mansarovar, Malviya Nagar, Vaishali Nagar & Raja Park</p>
         </div>
-        <button class="btn-gold" onclick="alert('Order Dispatched successfully!')"><i data-lucide="plus"></i> New Delivery Order</button>
+        <button class="btn-gold" onclick="openNewDeliveryModal()"><i data-lucide="plus"></i> New Delivery Order</button>
       </div>
 
       <div class="delivery-layout">
         <div class="card-box">
           <div class="card-box-header">
             <h3><i data-lucide="truck"></i> Active Jaipur Deliveries</h3>
+            <span id="deliveryCountBadge" class="pill blue">5 Orders</span>
           </div>
           <table class="data-table">
             <thead>
-              <tr><th>Order</th><th>Customer</th><th>Area</th><th>Amount</th><th>Status</th></tr>
+              <tr><th>Order</th><th>Customer</th><th>Area</th><th>Amount</th><th>Status</th><th>Action</th></tr>
             </thead>
-            <tbody>
-              <tr><td>#D101</td><td>Rohit Sharma</td><td>Mansarovar</td><td>₹ 480</td><td><span class="pill blue">Out for Delivery</span></td></tr>
-              <tr><td>#D102</td><td>Ananya Gupta</td><td>Sitapura</td><td>₹ 390</td><td><span class="pill amber">Preparing</span></td></tr>
-              <tr><td>#D103</td><td>Vikramaditya Rathore</td><td>Malviya Nagar</td><td>₹ 520</td><td><span class="pill blue">Out for Delivery</span></td></tr>
-              <tr><td>#D104</td><td>Pooja Choudhary</td><td>Vaishali Nagar</td><td>₹ 650</td><td><span class="pill purple">Order Placed</span></td></tr>
-              <tr><td>#D105</td><td>Deepak Khandelwal</td><td>Raja Park</td><td>₹ 310</td><td><span class="pill green">Delivered</span></td></tr>
+            <tbody id="deliveryTableBody">
+              <!-- Rendered via JS -->
             </tbody>
           </table>
         </div>
@@ -679,18 +732,15 @@
           <h2>User Management</h2>
           <p>System users, permissions, and administrative access</p>
         </div>
-        <button class="btn-gold" onclick="alert('Add User form opened!')"><i data-lucide="plus"></i> Add New User</button>
+        <button class="btn-gold" onclick="openAddUserModal()"><i data-lucide="plus"></i> Add New User</button>
       </div>
       <div class="card-box">
         <table class="data-table">
           <thead>
             <tr><th>User ID</th><th>Full Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th></tr>
           </thead>
-          <tbody>
-            <tr><td>#U1</td><td>Administrator</td><td>admin@dineease.com</td><td><span class="pill purple">ADMIN</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
-            <tr><td>#U2</td><td>Chef Suresh</td><td>suresh@dineease.com</td><td><span class="pill blue">STAFF</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
-            <tr><td>#U3</td><td>Manager Rajat</td><td>rajat@dineease.com</td><td><span class="pill amber">MANAGER</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
-            <tr><td>#U4</td><td>Cashier Neha</td><td>neha@dineease.com</td><td><span class="pill blue">STAFF</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
+          <tbody id="usersTableBody">
+            <!-- Rendered dynamically -->
           </tbody>
         </table>
       </div>
@@ -729,19 +779,15 @@
           <h2>Stock & Inventory Control</h2>
           <p>Track raw materials, ingredients and reorder thresholds</p>
         </div>
-        <button class="btn-gold" onclick="alert('New item added')"><i data-lucide="plus"></i> Add Inventory Item</button>
+        <button class="btn-gold" onclick="openAddInventoryModal()"><i data-lucide="plus"></i> Add Inventory Item</button>
       </div>
       <div class="card-box">
         <table class="data-table">
           <thead>
             <tr><th>Item Name</th><th>Category</th><th>Current Qty</th><th>Reorder Level</th><th>Status</th><th>Actions</th></tr>
           </thead>
-          <tbody>
-            <tr><td>Paneer (Cottage Cheese)</td><td>Dairy</td><td>15.5 kg</td><td>5.0 kg</td><td><span class="pill green">In Stock</span></td><td><button class="btn-secondary">Update</button></td></tr>
-            <tr><td>Basmati Rice</td><td>Grains</td><td>40.0 kg</td><td>10.0 kg</td><td><span class="pill green">In Stock</span></td><td><button class="btn-secondary">Update</button></td></tr>
-            <tr><td>Cooking Oil</td><td>Grocery</td><td>3.0 Litres</td><td>10.0 Litres</td><td><span class="pill red">Low Stock</span></td><td><button class="btn-secondary">Reorder</button></td></tr>
-            <tr><td>Amul Butter</td><td>Dairy</td><td>2.0 kg</td><td>5.0 kg</td><td><span class="pill red">Low Stock</span></td><td><button class="btn-secondary">Reorder</button></td></tr>
-            <tr><td>Coffee Beans</td><td>Beverages</td><td>8.0 kg</td><td>2.0 kg</td><td><span class="pill green">In Stock</span></td><td><button class="btn-secondary">Update</button></td></tr>
+          <tbody id="inventoryTableBody">
+            <!-- Rendered dynamically -->
           </tbody>
         </table>
       </div>
@@ -754,18 +800,15 @@
           <h2>Live Dining & Takeaway Orders</h2>
           <p>Real-time order statuses and kitchen ticket display</p>
         </div>
-        <button class="btn-gold" onclick="alert('Create order dialog')"><i data-lucide="plus"></i> Create New Order</button>
+        <button class="btn-gold" onclick="openCreateOrderModal()"><i data-lucide="plus"></i> Create New Order</button>
       </div>
       <div class="card-box">
         <table class="data-table">
           <thead>
             <tr><th>Order ID</th><th>Table / Type</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr>
           </thead>
-          <tbody>
-            <tr><td>#1025</td><td>Table 4</td><td>1x Paneer Tikka, 2x Naan</td><td>₹ 850.00</td><td><span class="pill purple">Served</span></td><td><button class="btn-secondary">Print KOT</button></td></tr>
-            <tr><td>#1024</td><td>Table 2</td><td>2x Cold Coffee</td><td>₹ 420.00</td><td><span class="pill green">Ready</span></td><td><button class="btn-secondary">Serve</button></td></tr>
-            <tr><td>#1023</td><td>Table 7</td><td>2x Steam Momos</td><td>₹ 650.00</td><td><span class="pill blue">Preparing</span></td><td><button class="btn-secondary">Mark Ready</button></td></tr>
-            <tr><td>#1022</td><td>Table 1</td><td>1x Royal Thali</td><td>₹ 920.00</td><td><span class="pill amber">Pending</span></td><td><button class="btn-secondary">Send to Kitchen</button></td></tr>
+          <tbody id="ordersTableBody">
+            <!-- Rendered dynamically -->
           </tbody>
         </table>
       </div>
@@ -776,36 +819,12 @@
       <div class="header-bar">
         <div>
           <h2>Table Management & Floor Layout</h2>
-          <p>Dining table availability, guest seating, and reservations</p>
+          <p>Click any table to toggle status between Available and Occupied</p>
         </div>
-        <button class="btn-gold" onclick="alert('Table added')"><i data-lucide="plus"></i> Add Table</button>
+        <button class="btn-gold" onclick="addNewTablePrompt()"><i data-lucide="plus"></i> Add Table</button>
       </div>
-      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;">
-        <div class="card-box" style="text-align: center; border-top: 4px solid #2E9E5B;">
-          <h3 style="font-size: 18px;">Table 1</h3>
-          <p style="font-size: 12px; color: #776655;">Capacity: 4 Guests</p>
-          <div style="margin-top: 10px;"><span class="pill green">Available</span></div>
-        </div>
-        <div class="card-box" style="text-align: center; border-top: 4px solid #E04F4A;">
-          <h3 style="font-size: 18px;">Table 2</h3>
-          <p style="font-size: 12px; color: #776655;">Capacity: 2 Guests</p>
-          <div style="margin-top: 10px;"><span class="pill red">Occupied</span></div>
-        </div>
-        <div class="card-box" style="text-align: center; border-top: 4px solid #EDAA3A;">
-          <h3 style="font-size: 18px;">Table 3</h3>
-          <p style="font-size: 12px; color: #776655;">Capacity: 6 Guests</p>
-          <div style="margin-top: 10px;"><span class="pill amber">Reserved</span></div>
-        </div>
-        <div class="card-box" style="text-align: center; border-top: 4px solid #E04F4A;">
-          <h3 style="font-size: 18px;">Table 4</h3>
-          <p style="font-size: 12px; color: #776655;">Capacity: 4 Guests</p>
-          <div style="margin-top: 10px;"><span class="pill red">Occupied</span></div>
-        </div>
-        <div class="card-box" style="text-align: center; border-top: 4px solid #2E9E5B;">
-          <h3 style="font-size: 18px;">Table 5</h3>
-          <p style="font-size: 12px; color: #776655;">Capacity: 8 Guests</p>
-          <div style="margin-top: 10px;"><span class="pill green">Available</span></div>
-        </div>
+      <div id="tablesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;">
+        <!-- Rendered dynamically -->
       </div>
     </div>
 
@@ -814,41 +833,80 @@
       <div class="header-bar">
         <div>
           <h2>Generate Bill & POS Checkout</h2>
-          <p>Settle table checks, print invoices and accept payments</p>
+          <p>Select customer dishes, adjust quantity, and generate restaurant invoice</p>
         </div>
       </div>
-      <div class="card-box" style="max-width: 650px;">
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Select Table</label>
-            <select class="form-control">
-              <option>Table 4 (Active Order #1025 - ₹ 850.00)</option>
-              <option>Table 2 (Active Order #1024 - ₹ 420.00)</option>
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;">
+        <!-- Left: Dish Selector & Cart Table -->
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="utensils"></i> Add Items to Bill</h3>
+          </div>
+          <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+            <select id="billDishSelect" class="form-control" style="flex: 2;">
+              <!-- Populated dynamically with menu items -->
             </select>
+            <input type="number" id="billDishQty" class="form-control" value="1" min="1" max="50" style="width: 80px;" placeholder="Qty">
+            <button class="btn-gold" onclick="addItemToCurrentBill()"><i data-lucide="plus"></i> Add</button>
           </div>
-          <div class="form-group">
-            <label>Payment Method</label>
-            <select class="form-control">
-              <option>UPI / QR Code</option>
-              <option>Cash</option>
-              <option>Credit / Debit Card</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Subtotal (₹)</label>
-            <input class="form-control" value="850.00" readonly>
-          </div>
-          <div class="form-group">
-            <label>GST Tax (5%)</label>
-            <input class="form-control" value="42.50" readonly>
-          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th><th>Action</th></tr>
+            </thead>
+            <tbody id="billItemsTableBody">
+              <!-- Populated from current bill cart -->
+            </tbody>
+          </table>
         </div>
-        <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E6DED2; padding-top: 14px;">
-          <div>
-            <span style="font-size: 13px; color: #776655;">Total Payable:</span>
-            <div style="font-size: 24px; font-weight: 700; color: #2E9E5B;">₹ 892.50</div>
+
+        <!-- Right: Settlement & Invoice Preview -->
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="receipt"></i> Invoice Summary</h3>
           </div>
-          <button class="btn-gold" onclick="alert('Payment marked as PAID & Bill Generated!')"><i data-lucide="check"></i> Mark as Paid & Print Bill</button>
+          <div class="form-grid" style="grid-template-columns: 1fr; gap: 10px;">
+            <div class="form-group">
+              <label>Table / Order Reference</label>
+              <select id="billTableRef" class="form-control">
+                <option value="Table 1">Table 1 (Dine-in)</option>
+                <option value="Table 2">Table 2 (Dine-in)</option>
+                <option value="Table 3">Table 3 (Dine-in)</option>
+                <option value="Table 4">Table 4 (Dine-in)</option>
+                <option value="Takeaway">Takeaway Counter</option>
+                <option value="Online Delivery">Online Delivery</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select id="billPaymentMethod" class="form-control">
+                <option value="UPI / QR Code">UPI / QR Code</option>
+                <option value="Cash">Cash</option>
+                <option value="Credit / Debit Card">Credit / Debit Card</option>
+              </select>
+            </div>
+            <div style="background: #FDF9F2; border: 1px dashed #DCD3C5; border-radius: 10px; padding: 14px; margin-top: 6px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: #665544; margin-bottom: 6px;">
+                <span>Subtotal:</span>
+                <span id="billSubtotalDisplay" style="font-weight: 700;">₹ 0.00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: #665544; margin-bottom: 6px;">
+                <span>CGST (2.5%):</span>
+                <span id="billCgstDisplay" style="font-weight: 700;">₹ 0.00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; color: #665544; margin-bottom: 8px;">
+                <span>SGST (2.5%):</span>
+                <span id="billSgstDisplay" style="font-weight: 700;">₹ 0.00</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 17px; font-weight: 700; color: #2E9E5B; border-top: 1px solid #E6DED2; padding-top: 8px;">
+                <span>Grand Total:</span>
+                <span id="billGrandTotalDisplay">₹ 0.00</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 16px; display: flex; gap: 10px;">
+            <button class="btn-gold" style="flex: 1;" onclick="settleAndPrintBill()"><i data-lucide="printer"></i> Settle & Print Bill</button>
+            <button class="btn-secondary" onclick="resetCurrentBill()">Clear</button>
+          </div>
         </div>
       </div>
     </div>
@@ -866,10 +924,8 @@
           <thead>
             <tr><th>Invoice #</th><th>Table / Order</th><th>Amount</th><th>Payment Mode</th><th>Status</th><th>Paid At</th></tr>
           </thead>
-          <tbody>
-            <tr><td>#INV-101</td><td>Table 1 (#1020)</td><td>₹ 1,250.00</td><td>UPI</td><td><span class="pill green">PAID</span></td><td>13 Nov, 10:45 AM</td></tr>
-            <tr><td>#INV-102</td><td>Table 3 (#1019)</td><td>₹ 680.00</td><td>Cash</td><td><span class="pill green">PAID</span></td><td>13 Nov, 09:30 AM</td></tr>
-            <tr><td>#INV-103</td><td>Table 5 (#1018)</td><td>₹ 2,400.00</td><td>Credit Card</td><td><span class="pill green">PAID</span></td><td>12 Nov, 08:20 PM</td></tr>
+          <tbody id="billHistoryTableBody">
+            <!-- Populated dynamically -->
           </tbody>
         </table>
       </div>
@@ -975,13 +1031,227 @@
     </div>
   </main>
 
+  <!-- MODAL: NEW DELIVERY ORDER -->
+  <div id="newDeliveryModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i data-lucide="truck"></i> New Online Delivery Order</h3>
+        <button style="background:none; border:none; color:#FFF; font-size:20px; cursor:pointer;" onclick="closeModal('newDeliveryModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Customer Name *</label>
+          <input id="delivCustName" class="form-control" placeholder="e.g. Ramesh Chandra">
+        </div>
+        <div class="form-group">
+          <label>Delivery Area (Jaipur) *</label>
+          <select id="delivArea" class="form-control">
+            <option value="Mansarovar">Mansarovar</option>
+            <option value="Sitapura">Sitapura</option>
+            <option value="Malviya Nagar">Malviya Nagar</option>
+            <option value="Vaishali Nagar">Vaishali Nagar</option>
+            <option value="Raja Park">Raja Park</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Delivery Address *</label>
+          <input id="delivAddress" class="form-control" placeholder="House / Flat / Street details">
+        </div>
+        <div class="form-group">
+          <label>Contact Phone Number *</label>
+          <input id="delivPhone" class="form-control" placeholder="10-digit mobile number">
+        </div>
+        <div class="form-group">
+          <label>Order Amount (₹) *</label>
+          <input id="delivAmount" type="number" class="form-control" placeholder="450">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('newDeliveryModal')">Cancel</button>
+        <button class="btn-gold" onclick="submitNewDelivery()"><i data-lucide="send"></i> Dispatch Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD INVENTORY -->
+  <div id="addInventoryModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i data-lucide="package"></i> Add Inventory Item</h3>
+        <button style="background:none; border:none; color:#FFF; font-size:20px; cursor:pointer;" onclick="closeModal('addInventoryModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Item Name *</label>
+          <input id="invItemName" class="form-control" placeholder="e.g. Fresh Cream">
+        </div>
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="invCategory" class="form-control">
+            <option value="Dairy">Dairy</option>
+            <option value="Grains">Grains</option>
+            <option value="Grocery">Grocery</option>
+            <option value="Spices">Spices</option>
+            <option value="Beverages">Beverages</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Quantity *</label>
+          <input id="invQty" class="form-control" placeholder="e.g. 10.0 kg or 5.0 Litres">
+        </div>
+        <div class="form-group">
+          <label>Reorder Threshold *</label>
+          <input id="invReorder" class="form-control" placeholder="e.g. 3.0 kg">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('addInventoryModal')">Cancel</button>
+        <button class="btn-gold" onclick="submitAddInventory()"><i data-lucide="check"></i> Save Item</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE ORDER -->
+  <div id="createOrderModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i data-lucide="clipboard-list"></i> Create Dining / Takeaway Order</h3>
+        <button style="background:none; border:none; color:#FFF; font-size:20px; cursor:pointer;" onclick="closeModal('createOrderModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Order Type / Table *</label>
+          <select id="newOrderTable" class="form-control">
+            <option value="Table 1">Table 1</option>
+            <option value="Table 2">Table 2</option>
+            <option value="Table 3">Table 3</option>
+            <option value="Table 4">Table 4</option>
+            <option value="Table 5">Table 5</option>
+            <option value="Takeaway Counter">Takeaway Counter</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ordered Dishes *</label>
+          <input id="newOrderItems" class="form-control" placeholder="e.g. 2x Paneer Tikka, 1x Naan">
+        </div>
+        <div class="form-group">
+          <label>Total Price (₹) *</label>
+          <input id="newOrderTotal" type="number" class="form-control" placeholder="e.g. 480">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('createOrderModal')">Cancel</button>
+        <button class="btn-gold" onclick="submitCreateOrder()"><i data-lucide="check"></i> Send to Kitchen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD USER -->
+  <div id="addUserModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i data-lucide="user-plus"></i> Add System User</h3>
+        <button style="background:none; border:none; color:#FFF; font-size:20px; cursor:pointer;" onclick="closeModal('addUserModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input id="newUserName" class="form-control" placeholder="e.g. Amit Verma">
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input id="newUserEmail" type="email" class="form-control" placeholder="amit@dineease.com">
+        </div>
+        <div class="form-group">
+          <label>Role *</label>
+          <select id="newUserRole" class="form-control">
+            <option value="STAFF">STAFF</option>
+            <option value="MANAGER">MANAGER</option>
+            <option value="ADMIN">ADMIN</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('addUserModal')">Cancel</button>
+        <button class="btn-gold" onclick="submitAddUser()"><i data-lucide="check"></i> Create User</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     lucide.createIcons();
 
-    // --- MENU RENDERING & INTERACTIONS ---
+    // ==========================================
+    // 1. DATA STATE (Interactive Store)
+    // ==========================================
     let currentCategory = 'All';
     let menuItems = typeof REAL_MENU_DATA !== 'undefined' ? [...REAL_MENU_DATA] : [];
 
+    let deliveryOrders = [
+      { id: '#D101', customer: 'Rohit Sharma', area: 'Mansarovar', amount: 480, status: 'Out for Delivery', pill: 'blue' },
+      { id: '#D102', customer: 'Ananya Gupta', area: 'Sitapura', amount: 390, status: 'Preparing', pill: 'amber' },
+      { id: '#D103', customer: 'Vikramaditya Rathore', area: 'Malviya Nagar', amount: 520, status: 'Out for Delivery', pill: 'blue' },
+      { id: '#D104', customer: 'Pooja Choudhary', area: 'Vaishali Nagar', amount: 650, status: 'Order Placed', pill: 'purple' },
+      { id: '#D105', customer: 'Deepak Khandelwal', area: 'Raja Park', amount: 310, status: 'Delivered', pill: 'green' }
+    ];
+
+    let inventoryItems = [
+      { id: 1, name: 'Paneer (Cottage Cheese)', category: 'Dairy', qty: '15.5 kg', threshold: '5.0 kg', status: 'In Stock', pill: 'green' },
+      { id: 2, name: 'Basmati Rice', category: 'Grains', qty: '40.0 kg', threshold: '10.0 kg', status: 'In Stock', pill: 'green' },
+      { id: 3, name: 'Cooking Oil', category: 'Grocery', qty: '3.0 Litres', threshold: '10.0 Litres', status: 'Low Stock', pill: 'red' },
+      { id: 4, name: 'Amul Butter', category: 'Dairy', qty: '2.0 kg', threshold: '5.0 kg', status: 'Low Stock', pill: 'red' },
+      { id: 5, name: 'Coffee Beans', category: 'Beverages', qty: '8.0 kg', threshold: '2.0 kg', status: 'In Stock', pill: 'green' }
+    ];
+
+    let liveOrders = [
+      { id: '#1025', table: 'Table 4', items: '1x Paneer Tikka, 2x Naan', total: 850, status: 'Served', pill: 'purple' },
+      { id: '#1024', table: 'Table 2', items: '2x Cold Coffee', total: 420, status: 'Ready', pill: 'green' },
+      { id: '#1023', table: 'Table 7', items: '2x Steam Momos', total: 650, status: 'Preparing', pill: 'blue' },
+      { id: '#1022', table: 'Table 1', items: '1x Royal Thali', total: 920, status: 'Pending', pill: 'amber' }
+    ];
+
+    let restaurantTables = [
+      { id: 1, name: 'Table 1', capacity: 4, status: 'Available', color: '#2E9E5B' },
+      { id: 2, name: 'Table 2', capacity: 2, status: 'Occupied', color: '#E04F4A' },
+      { id: 3, name: 'Table 3', capacity: 6, status: 'Reserved', color: '#EDAA3A' },
+      { id: 4, name: 'Table 4', capacity: 4, status: 'Occupied', color: '#E04F4A' },
+      { id: 5, name: 'Table 5', capacity: 8, status: 'Available', color: '#2E9E5B' }
+    ];
+
+    let systemUsers = [
+      { id: '#U1', name: 'Administrator', email: 'admin@dineease.com', role: 'ADMIN', rolePill: 'purple', status: 'Active' },
+      { id: '#U2', name: 'Chef Suresh', email: 'suresh@dineease.com', role: 'STAFF', rolePill: 'blue', status: 'Active' },
+      { id: '#U3', name: 'Manager Rajat', email: 'rajat@dineease.com', role: 'MANAGER', rolePill: 'amber', status: 'Active' },
+      { id: '#U4', name: 'Cashier Neha', email: 'neha@dineease.com', role: 'STAFF', rolePill: 'blue', status: 'Active' }
+    ];
+
+    let billHistory = [
+      { invoice: '#INV-101', ref: 'Table 1 (#1020)', amount: 1250.00, mode: 'UPI', status: 'PAID', time: '13 Nov, 10:45 AM' },
+      { invoice: '#INV-102', ref: 'Table 3 (#1019)', amount: 680.00, mode: 'Cash', status: 'PAID', time: '13 Nov, 09:30 AM' },
+      { invoice: '#INV-103', ref: 'Table 5 (#1018)', amount: 2400.00, mode: 'Credit Card', status: 'PAID', time: '12 Nov, 08:20 PM' }
+    ];
+
+    let currentBillCart = [
+      { name: 'Paneer Tikka', price: 200.0, qty: 1, total: 200.0 },
+      { name: 'Butter Naan', price: 50.0, qty: 2, total: 100.0 }
+    ];
+
+    // ==========================================
+    // 2. MODAL CONTROLLERS
+    // ==========================================
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      lucide.createIcons();
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('active');
+    }
+
+    // ==========================================
+    // 3. MENU MODULE
+    // ==========================================
     function renderMenuItems() {
       const container = document.getElementById('menuContainer');
       if (!container) return;
@@ -1029,54 +1299,533 @@
       if (confirm('Are you sure you want to delete this menu dish?')) {
         menuItems = menuItems.filter(item => item.id !== id);
         renderMenuItems();
+        populateBillDishSelect();
       }
     }
 
     function openAddDishModal() {
-      const name = prompt('Enter Item Name:');
+      const name = prompt('Enter Dish Name:');
       if (!name) return;
       const cat = prompt('Enter Category (Starter, Main Course, Soup, Salad, Dessert, Beverage):', 'Starter') || 'Starter';
       const price = prompt('Enter Price (₹):', '150');
-      const desc = prompt('Enter Description:', 'Delicious freshly made recipe.') || '';
+      const desc = prompt('Enter Short Description:', 'Delicious freshly prepared recipe.') || '';
       
       const newItem = {
         id: Date.now(),
         name: name,
         category: cat,
-        price: parseFloat(price) || 100,
+        price: parseFloat(price) || 120,
         description: desc,
         status: 'Available',
         image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'
       };
       menuItems.unshift(newItem);
       renderMenuItems();
-      alert('Dish "' + name + '" added successfully to menu!');
+      populateBillDishSelect();
+      alert('Dish "' + name + '" successfully added to Menu!');
     }
 
-    // Initialize Menu
-    renderMenuItems();
+    // ==========================================
+    // 4. ONLINE DELIVERY (Jaipur Tracking)
+    // ==========================================
+    function renderDeliveryTable() {
+      const tbody = document.getElementById('deliveryTableBody');
+      const badge = document.getElementById('deliveryCountBadge');
+      if (!tbody) return;
 
+      if (badge) badge.textContent = `${deliveryOrders.length} Orders`;
+      tbody.innerHTML = deliveryOrders.map(d => `
+        <tr>
+          <td><strong>${d.id}</strong></td>
+          <td>${d.customer}</td>
+          <td>📍 ${d.area}</td>
+          <td>₹ ${d.amount.toFixed(2)}</td>
+          <td><span class="pill ${d.pill}">${d.status}</span></td>
+          <td>
+            <button class="btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="advanceDeliveryStatus('${d.id}')">Update</button>
+            <button class="btn-danger" style="font-size:11px; padding:4px 8px; margin-left:4px;" onclick="cancelDeliveryOrder('${d.id}')">✕</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openNewDeliveryModal() {
+      openModal('newDeliveryModal');
+    }
+
+    function submitNewDelivery() {
+      const name = document.getElementById('delivCustName')?.value.trim();
+      const area = document.getElementById('delivArea')?.value;
+      const address = document.getElementById('delivAddress')?.value.trim();
+      const phone = document.getElementById('delivPhone')?.value.trim();
+      const amount = parseFloat(document.getElementById('delivAmount')?.value) || 0;
+
+      if (!name || !address || !phone || amount <= 0) {
+        alert('Please fill all required delivery details properly.');
+        return;
+      }
+
+      const newOrder = {
+        id: '#D' + (100 + deliveryOrders.length + 1),
+        customer: name,
+        area: area,
+        amount: amount,
+        status: 'Order Placed',
+        pill: 'purple'
+      };
+      deliveryOrders.unshift(newOrder);
+      renderDeliveryTable();
+      closeModal('newDeliveryModal');
+
+      // Clear form
+      document.getElementById('delivCustName').value = '';
+      document.getElementById('delivAddress').value = '';
+      document.getElementById('delivPhone').value = '';
+      document.getElementById('delivAmount').value = '';
+
+      alert(`Delivery Order ${newOrder.id} dispatched successfully to ${name} (${area})!`);
+    }
+
+    function advanceDeliveryStatus(id) {
+      const order = deliveryOrders.find(o => o.id === id);
+      if (!order) return;
+      if (order.status === 'Order Placed') {
+        order.status = 'Preparing';
+        order.pill = 'amber';
+      } else if (order.status === 'Preparing') {
+        order.status = 'Out for Delivery';
+        order.pill = 'blue';
+      } else if (order.status === 'Out for Delivery') {
+        order.status = 'Delivered';
+        order.pill = 'green';
+      } else {
+        alert('This order is already Delivered.');
+        return;
+      }
+      renderDeliveryTable();
+    }
+
+    function cancelDeliveryOrder(id) {
+      if (confirm(`Remove order ${id}?`)) {
+        deliveryOrders = deliveryOrders.filter(o => o.id !== id);
+        renderDeliveryTable();
+      }
+    }
+
+    // ==========================================
+    // 5. INVENTORY MODULE
+    // ==========================================
+    function renderInventoryTable() {
+      const tbody = document.getElementById('inventoryTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = inventoryItems.map(item => `
+        <tr>
+          <td><strong>${item.name}</strong></td>
+          <td>${item.category}</td>
+          <td>${item.qty}</td>
+          <td>${item.threshold}</td>
+          <td><span class="pill ${item.pill}">${item.status}</span></td>
+          <td>
+            <button class="btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="updateStockPrompt(${item.id})">Update Qty</button>
+            <button class="btn-danger" style="font-size:11px; padding:4px 8px; margin-left:4px;" onclick="deleteInventoryItem(${item.id})">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openAddInventoryModal() {
+      openModal('addInventoryModal');
+    }
+
+    function submitAddInventory() {
+      const name = document.getElementById('invItemName')?.value.trim();
+      const cat = document.getElementById('invCategory')?.value;
+      const qty = document.getElementById('invQty')?.value.trim();
+      const threshold = document.getElementById('invReorder')?.value.trim();
+
+      if (!name || !qty) {
+        alert('Please provide item name and quantity.');
+        return;
+      }
+
+      inventoryItems.push({
+        id: Date.now(),
+        name: name,
+        category: cat,
+        qty: qty,
+        threshold: threshold || '5.0 kg',
+        status: 'In Stock',
+        pill: 'green'
+      });
+      renderInventoryTable();
+      closeModal('addInventoryModal');
+      alert(`Item "${name}" added to inventory.`);
+    }
+
+    function updateStockPrompt(id) {
+      const item = inventoryItems.find(i => i.id === id);
+      if (!item) return;
+      const newQty = prompt(`Update current quantity for ${item.name}:`, item.qty);
+      if (newQty) {
+        item.qty = newQty;
+        renderInventoryTable();
+      }
+    }
+
+    function deleteInventoryItem(id) {
+      if (confirm('Delete this inventory item?')) {
+        inventoryItems = inventoryItems.filter(i => i.id !== id);
+        renderInventoryTable();
+      }
+    }
+
+    // ==========================================
+    // 6. ORDER MANAGEMENT MODULE
+    // ==========================================
+    function renderOrdersTable() {
+      const tbody = document.getElementById('ordersTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = liveOrders.map(o => `
+        <tr>
+          <td><strong>${o.id}</strong></td>
+          <td>${o.table}</td>
+          <td>${o.items}</td>
+          <td>₹ ${o.total.toFixed(2)}</td>
+          <td><span class="pill ${o.pill}">${o.status}</span></td>
+          <td>
+            <button class="btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="advanceOrderStatus('${o.id}')">Advance</button>
+            <button class="btn-danger" style="font-size:11px; padding:4px 8px; margin-left:4px;" onclick="cancelLiveOrder('${o.id}')">Cancel</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openCreateOrderModal() {
+      openModal('createOrderModal');
+    }
+
+    function submitCreateOrder() {
+      const table = document.getElementById('newOrderTable')?.value;
+      const items = document.getElementById('newOrderItems')?.value.trim();
+      const total = parseFloat(document.getElementById('newOrderTotal')?.value) || 0;
+
+      if (!items || total <= 0) {
+        alert('Please enter order items and total amount.');
+        return;
+      }
+
+      const newOrder = {
+        id: '#' + (1020 + liveOrders.length + 1),
+        table: table,
+        items: items,
+        total: total,
+        status: 'Pending',
+        pill: 'amber'
+      };
+      liveOrders.unshift(newOrder);
+      renderOrdersTable();
+      closeModal('createOrderModal');
+      alert(`New order ${newOrder.id} sent to kitchen for ${table}!`);
+    }
+
+    function advanceOrderStatus(id) {
+      const o = liveOrders.find(ord => ord.id === id);
+      if (!o) return;
+      if (o.status === 'Pending') { o.status = 'Preparing'; o.pill = 'blue'; }
+      else if (o.status === 'Preparing') { o.status = 'Ready'; o.pill = 'green'; }
+      else if (o.status === 'Ready') { o.status = 'Served'; o.pill = 'purple'; }
+      else { alert('Order already served/completed.'); return; }
+      renderOrdersTable();
+    }
+
+    function cancelLiveOrder(id) {
+      if (confirm(`Cancel order ${id}?`)) {
+        liveOrders = liveOrders.filter(o => o.id !== id);
+        renderOrdersTable();
+      }
+    }
+
+    // ==========================================
+    // 7. TABLE MANAGEMENT MODULE
+    // ==========================================
+    function renderTablesGrid() {
+      const container = document.getElementById('tablesGrid');
+      if (!container) return;
+
+      container.innerHTML = restaurantTables.map(t => `
+        <div class="card-box" style="text-align: center; border-top: 4px solid ${t.color}; cursor: pointer; transition: transform 0.2s;" onclick="toggleTableStatus(${t.id})" title="Click to toggle status">
+          <h3 style="font-size: 18px;">${t.name}</h3>
+          <p style="font-size: 12px; color: #776655; margin-top: 4px;">Capacity: ${t.capacity} Guests</p>
+          <div style="margin-top: 10px;">
+            <span class="pill ${t.status === 'Available' ? 'green' : (t.status === 'Occupied' ? 'red' : 'amber')}">${t.status}</span>
+          </div>
+          <div style="font-size: 10.5px; color: #998877; margin-top: 8px;">Tap to change</div>
+        </div>
+      `).join('');
+    }
+
+    function toggleTableStatus(id) {
+      const t = restaurantTables.find(table => table.id === id);
+      if (!t) return;
+      if (t.status === 'Available') {
+        t.status = 'Occupied';
+        t.color = '#E04F4A';
+      } else if (t.status === 'Occupied') {
+        t.status = 'Reserved';
+        t.color = '#EDAA3A';
+      } else {
+        t.status = 'Available';
+        t.color = '#2E9E5B';
+      }
+      renderTablesGrid();
+    }
+
+    function addNewTablePrompt() {
+      const name = prompt('Enter Table Name (e.g. Table 6):');
+      if (!name) return;
+      const cap = parseInt(prompt('Guest Capacity:', '4')) || 4;
+      restaurantTables.push({
+        id: Date.now(),
+        name: name,
+        capacity: cap,
+        status: 'Available',
+        color: '#2E9E5B'
+      });
+      renderTablesGrid();
+    }
+
+    // ==========================================
+    // 8. BILLING & POS MODULE (INTERACTIVE)
+    // ==========================================
+    function populateBillDishSelect() {
+      const select = document.getElementById('billDishSelect');
+      if (!select) return;
+
+      select.innerHTML = menuItems.map(item => `
+        <option value="${item.name}|${item.price}">
+          ${item.name} — ₹ ${Number(item.price).toFixed(2)} (${item.category})
+        </option>
+      `).join('');
+    }
+
+    function renderBillCart() {
+      const tbody = document.getElementById('billItemsTableBody');
+      const subtotalEl = document.getElementById('billSubtotalDisplay');
+      const cgstEl = document.getElementById('billCgstDisplay');
+      const sgstEl = document.getElementById('billSgstDisplay');
+      const grandEl = document.getElementById('billGrandTotalDisplay');
+      if (!tbody) return;
+
+      if (currentBillCart.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#887766; padding:18px;">No dishes added yet. Choose a dish above and click "Add".</td></tr>';
+        if (subtotalEl) subtotalEl.textContent = '₹ 0.00';
+        if (cgstEl) cgstEl.textContent = '₹ 0.00';
+        if (sgstEl) sgstEl.textContent = '₹ 0.00';
+        if (grandEl) grandEl.textContent = '₹ 0.00';
+        return;
+      }
+
+      let subtotal = 0;
+      tbody.innerHTML = currentBillCart.map((item, idx) => {
+        subtotal += item.total;
+        return `
+          <tr>
+            <td><strong>${item.name}</strong></td>
+            <td>₹ ${item.price.toFixed(2)}</td>
+            <td>${item.qty}</td>
+            <td>₹ ${item.total.toFixed(2)}</td>
+            <td><button class="btn-danger" style="font-size:11px; padding:3px 8px;" onclick="removeBillCartItem(${idx})">✕</button></td>
+          </tr>
+        `;
+      }).join('');
+
+      const cgst = subtotal * 0.025;
+      const sgst = subtotal * 0.025;
+      const grandTotal = subtotal + cgst + sgst;
+
+      if (subtotalEl) subtotalEl.textContent = `₹ ${subtotal.toFixed(2)}`;
+      if (cgstEl) cgstEl.textContent = `₹ ${cgst.toFixed(2)}`;
+      if (sgstEl) sgstEl.textContent = `₹ ${sgst.toFixed(2)}`;
+      if (grandEl) grandEl.textContent = `₹ ${grandTotal.toFixed(2)}`;
+    }
+
+    function addItemToCurrentBill() {
+      const select = document.getElementById('billDishSelect');
+      const qtyInput = document.getElementById('billDishQty');
+      if (!select) return;
+
+      const [name, priceStr] = select.value.split('|');
+      const price = parseFloat(priceStr) || 0;
+      const qty = parseInt(qtyInput?.value) || 1;
+
+      // Check if already in cart
+      const existing = currentBillCart.find(i => i.name === name);
+      if (existing) {
+        existing.qty += qty;
+        existing.total = existing.qty * existing.price;
+      } else {
+        currentBillCart.push({
+          name: name,
+          price: price,
+          qty: qty,
+          total: price * qty
+        });
+      }
+      renderBillCart();
+    }
+
+    function removeBillCartItem(index) {
+      currentBillCart.splice(index, 1);
+      renderBillCart();
+    }
+
+    function resetCurrentBill() {
+      currentBillCart = [];
+      renderBillCart();
+    }
+
+    function settleAndPrintBill() {
+      if (currentBillCart.length === 0) {
+        alert('Please add dishes to the bill first!');
+        return;
+      }
+
+      const tableRef = document.getElementById('billTableRef')?.value || 'Table 1';
+      const payMode = document.getElementById('billPaymentMethod')?.value || 'UPI';
+
+      let subtotal = 0;
+      currentBillCart.forEach(i => subtotal += i.total);
+      const grandTotal = subtotal + (subtotal * 0.05);
+
+      const invNo = '#INV-' + (100 + billHistory.length + 1);
+      const newBill = {
+        invoice: invNo,
+        ref: tableRef,
+        amount: grandTotal,
+        mode: payMode,
+        status: 'PAID',
+        time: 'Just now'
+      };
+      billHistory.unshift(newBill);
+      renderBillHistory();
+
+      // Print popup
+      const itemsList = currentBillCart.map(i => `${i.qty}x ${i.name} = ₹${i.total.toFixed(2)}`).join('\n');
+      alert(`🎉 INVOICE GENERATED!\n----------------------------\nInvoice: ${invNo}\nReference: ${tableRef}\nPayment: ${payMode}\n\nItems:\n${itemsList}\n----------------------------\nSubtotal: ₹${subtotal.toFixed(2)}\nGST (5%): ₹${(subtotal * 0.05).toFixed(2)}\nGrand Total: ₹${grandTotal.toFixed(2)}\n\nStatus: PAID ✅\nThank you for dining at DineEase!`);
+
+      resetCurrentBill();
+      showPanel('bill-history');
+    }
+
+    // ==========================================
+    // 9. BILL HISTORY MODULE
+    // ==========================================
+    function renderBillHistory() {
+      const tbody = document.getElementById('billHistoryTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = billHistory.map(b => `
+        <tr>
+          <td><strong>${b.invoice}</strong></td>
+          <td>${b.ref}</td>
+          <td>₹ ${b.amount.toFixed(2)}</td>
+          <td>${b.mode}</td>
+          <td><span class="pill green">${b.status}</span></td>
+          <td>${b.time}</td>
+        </tr>
+      `).join('');
+    }
+
+    // ==========================================
+    // 10. USER MANAGEMENT MODULE
+    // ==========================================
+    function renderUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = systemUsers.map(u => `
+        <tr>
+          <td><strong>${u.id}</strong></td>
+          <td>${u.name}</td>
+          <td>${u.email}</td>
+          <td><span class="pill ${u.rolePill}">${u.role}</span></td>
+          <td><span class="pill green">${u.status}</span></td>
+          <td>
+            <button class="btn-secondary" style="font-size:11px; padding:4px 8px;" onclick="editUserPrompt('${u.id}')">Edit</button>
+            <button class="btn-danger" style="font-size:11px; padding:4px 8px; margin-left:4px;" onclick="deleteUser('${u.id}')">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openAddUserModal() {
+      openModal('addUserModal');
+    }
+
+    function submitAddUser() {
+      const name = document.getElementById('newUserName')?.value.trim();
+      const email = document.getElementById('newUserEmail')?.value.trim();
+      const role = document.getElementById('newUserRole')?.value;
+
+      if (!name || !email) {
+        alert('Please enter name and email.');
+        return;
+      }
+
+      systemUsers.push({
+        id: '#U' + (systemUsers.length + 1),
+        name: name,
+        email: email,
+        role: role,
+        rolePill: role === 'ADMIN' ? 'purple' : (role === 'MANAGER' ? 'amber' : 'blue'),
+        status: 'Active'
+      });
+      renderUsersTable();
+      closeModal('addUserModal');
+      alert(`User ${name} created successfully.`);
+    }
+
+    function editUserPrompt(id) {
+      const u = systemUsers.find(user => user.id === id);
+      if (!u) return;
+      const newName = prompt('Update Name:', u.name);
+      if (newName) {
+        u.name = newName;
+        renderUsersTable();
+      }
+    }
+
+    function deleteUser(id) {
+      if (confirm(`Delete user ${id}?`)) {
+        systemUsers = systemUsers.filter(u => u.id !== id);
+        renderUsersTable();
+      }
+    }
+
+    // ==========================================
+    // 11. NAVIGATION & INITIALIZATION
+    // ==========================================
     function showPanel(panelKey) {
-      // 1. Hide all panels
       const panels = document.querySelectorAll('.view-panel');
       panels.forEach(p => p.classList.remove('active-panel'));
 
-      // 2. Remove active class from nav items
       const navItems = document.querySelectorAll('.nav-item');
       navItems.forEach(item => item.classList.remove('active'));
 
-      // 3. Show selected panel
       const targetPanel = document.getElementById('panel-' + panelKey);
       if (targetPanel) {
         targetPanel.classList.add('active-panel');
       }
 
-      // 4. Mark clicked sidebar item as active
-      if (window.event && window.event.currentTarget) {
+      const activeNav = document.querySelector(`.nav-item[onclick*="${panelKey}"]`);
+      if (activeNav) {
+        activeNav.classList.add('active');
+      } else if (window.event && window.event.currentTarget) {
         window.event.currentTarget.classList.add('active');
       }
 
-      // Refresh icons in newly visible panel
       lucide.createIcons();
     }
 
@@ -1090,6 +1839,18 @@
         tEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       }
     }
+
+    // Initialize All Interactive Views
+    renderMenuItems();
+    renderDeliveryTable();
+    renderInventoryTable();
+    renderOrdersTable();
+    renderTablesGrid();
+    populateBillDishSelect();
+    renderBillCart();
+    renderBillHistory();
+    renderUsersTable();
+
     setInterval(updateClock, 1000);
     updateClock();
   </script>
