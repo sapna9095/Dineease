@@ -805,18 +805,17 @@ public class RestaurantMenuPanel extends JPanel {
 
 
         // =========================
-        // BUTTON
+        // BUTTONS (View Details & Delete)
         // =========================
 
         JButton detailsButton =
                 new JButton(
-                        "View Details"
+                        "Details"
                 );
 
         UITheme.styleSecondaryButton(
                 detailsButton
         );
-
 
         detailsButton.addActionListener(
                 e -> showItemDetails(
@@ -824,12 +823,26 @@ public class RestaurantMenuPanel extends JPanel {
                 )
         );
 
+        JButton deleteCardBtn =
+                new JButton(
+                        "Delete"
+                );
+
+        UITheme.styleDangerButton(
+                deleteCardBtn
+        );
+
+        deleteCardBtn.addActionListener(
+                e -> deleteItemDirectly(
+                        item
+                )
+        );
 
         JPanel buttonPanel =
                 new JPanel(
                         new FlowLayout(
                                 FlowLayout.RIGHT,
-                                5,
+                                6,
                                 5
                         )
                 );
@@ -838,11 +851,13 @@ public class RestaurantMenuPanel extends JPanel {
                 CARD_BACKGROUND
         );
 
-
         buttonPanel.add(
                 detailsButton
         );
 
+        buttonPanel.add(
+                deleteCardBtn
+        );
 
         card.add(
                 buttonPanel,
@@ -1050,6 +1065,55 @@ public class RestaurantMenuPanel extends JPanel {
                 "Menu Item Details",
                 JOptionPane.INFORMATION_MESSAGE
         );
+    }
+
+    private void deleteItemDirectly(MenuItem item) {
+        int confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to delete \"" + item.getItemName() + "\" (ID: #" + item.getItemId() + ")?",
+                "Confirm Delete Menu Item",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirmation == JOptionPane.YES_OPTION) {
+            SwingWorker<Boolean, Void> worker = new SwingWorker<>() {
+                @Override
+                protected Boolean doInBackground() {
+                    return menuController.deleteMenuItem(item.getItemId());
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        if (get()) {
+                            JOptionPane.showMessageDialog(
+                                    RestaurantMenuPanel.this,
+                                    "\"" + item.getItemName() + "\" has been deleted successfully!",
+                                    "Item Deleted",
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
+                            refreshMenu();
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    RestaurantMenuPanel.this,
+                                    "Failed to delete menu item.",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(
+                                RestaurantMenuPanel.this,
+                                "Error: " + ex.getMessage(),
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+                }
+            };
+            worker.execute();
+        }
     }
 
 

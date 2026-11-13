@@ -37,3 +37,4 @@ const REAL_MENU_DATA = [
 ];
 
 window.REAL_MENU_DATA = REAL_MENU_DATA;
+

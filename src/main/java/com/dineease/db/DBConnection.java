@@ -165,6 +165,24 @@ public final class DBConnection {
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
             """);
 
+            stmt.executeUpdate("""
+                CREATE TABLE IF NOT EXISTS delivery_orders (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    customer_name VARCHAR(100) NOT NULL,
+                    customer_phone VARCHAR(20) NOT NULL,
+                    area VARCHAR(50) NOT NULL,
+                    full_address VARCHAR(255) NOT NULL,
+                    items_summary TEXT NOT NULL,
+                    total_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+                    status ENUM('Order Placed', 'Preparing', 'Out for Delivery', 'Delivered', 'Cancelled') NOT NULL DEFAULT 'Order Placed',
+                    rider_lat DECIMAL(10,6) DEFAULT 26.7818,
+                    rider_lng DECIMAL(10,6) DEFAULT 75.8234,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    INDEX idx_delivery_area (area),
+                    INDEX idx_delivery_status (status)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+            """);
+
             initialized = true;
         } catch (Exception e) {
             System.err.println("Database initialization warning: " + e.getMessage());

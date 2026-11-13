@@ -190,10 +190,13 @@ public class MenuManagementPanel extends JPanel {
 
 
         deleteMenuButton.addActionListener(
-                e -> cardLayout.show(
-                        contentPanel,
-                        "DELETE"
-                )
+                e -> {
+                    deletePanel.loadMenuItems();
+                    cardLayout.show(
+                            contentPanel,
+                            "DELETE"
+                    );
+                }
         );
 
 

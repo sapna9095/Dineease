@@ -10,6 +10,7 @@ echo.
 
 where java >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
+    
     echo [ERROR] 'java' was not found in your PATH.
     echo Please make sure Java 17+ is installed.
     echo.

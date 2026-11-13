@@ -1,45 +1,45 @@
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.kotlin
+bin/
+*.class
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+# IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### Eclipse ###
+# Eclipse
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# NetBeans
+nbproject/private/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+nbbuild/
+dist/
+nbdist/
 
-### VS Code ###
+# Visual Studio Code
 .vscode/
 
-### Mac OS ###
+# Operating System Files
 .DS_Store
+Thumbs.db
+desktop.ini
 
-# Sensitive configuration files (passwords/credentials)
+# Maven Wrapper & Output Logs
+*.log
+.mvn/timing.properties
+
+# Sensitive Credentials & Local Databases
 db.properties
 src/main/resources/db.properties
 *.env
 .env
+
+# Generated Billing PDFs
+bills/*.pdf
