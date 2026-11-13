@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DineEase AI - Admin Dashboard</title>
+  <title>DineEase AI - Restaurant Management System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,46 +25,49 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 28px 20px 20px 20px;
+      padding: 24px 18px;
     }
     .logo-block h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 34px;
+      font-size: 32px;
       color: #C8902E;
       line-height: 1;
     }
     .logo-block .sub-ai {
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
+      font-size: 20px;
       color: #FFFFFF;
       margin-top: 4px;
     }
     .logo-block .tagline {
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 700;
       color: #B9A896;
       letter-spacing: 1.5px;
-      margin-top: 6px;
+      margin-top: 5px;
     }
     .nav-list {
       list-style: none;
-      margin-top: 24px;
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
+      overflow-y: auto;
+      max-height: calc(100vh - 210px);
     }
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 10px 16px;
-      border-radius: 10px;
+      gap: 12px;
+      padding: 9px 14px;
+      border-radius: 8px;
       color: #B9A896;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
       text-decoration: none;
+      user-select: none;
     }
     .nav-item:hover {
       background: rgba(255, 255, 255, 0.08);
@@ -74,30 +77,46 @@
       background: #8A602A;
       color: #FFFFFF;
     }
-    .nav-item svg { width: 18px; height: 18px; stroke-width: 2; }
+    .nav-item svg { width: 17px; height: 17px; stroke-width: 2; }
     .nav-item.active svg { color: #C8902E; }
     .sidebar-footer {
       border-top: 1px solid #5A412D;
-      padding-top: 16px;
+      padding-top: 14px;
     }
     .sidebar-footer .user-title {
       color: #FFFFFF;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 13.5px;
     }
     .sidebar-footer .app-ver {
       color: #B9A896;
-      font-size: 11.5px;
-      margin-top: 3px;
+      font-size: 11px;
+      margin-top: 2px;
     }
+
+    /* MAIN CONTAINER & PANELS */
     .main-content {
       flex: 1;
       display: flex;
       flex-direction: column;
       overflow-y: auto;
-      padding: 24px 32px;
-      gap: 20px;
+      padding: 24px 30px;
+      gap: 18px;
     }
+    .view-panel {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+      animation: fadeIn 0.25s ease;
+    }
+    .view-panel.active-panel {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .header-bar {
       display: flex;
       justify-content: space-between;
@@ -105,82 +124,67 @@
     }
     .header-bar h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 32px;
+      font-size: 28px;
       color: #2F2216;
     }
     .header-bar p {
       color: #736252;
-      font-size: 14.5px;
+      font-size: 13.5px;
       margin-top: 2px;
     }
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 14px;
     }
-    .btn-refresh {
+    .btn-gold {
       background: #C8902E;
       color: #FFF;
       border: none;
-      padding: 9px 18px;
+      padding: 8px 16px;
       border-radius: 8px;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12.5px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-gold:hover { background: #b37e25; }
+    .btn-secondary {
+      background: #EFE8DC;
+      color: #4A3B2C;
+      border: 1px solid #D8CFC2;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 12px;
       cursor: pointer;
     }
-    .btn-refresh:hover { background: #b37e25; }
+    .btn-secondary:hover { background: #e2dacd; }
+    .btn-danger {
+      background: #E04F4A;
+      color: #FFF;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 11.5px;
+      cursor: pointer;
+    }
+    .btn-danger:hover { background: #c63f3a; }
+
     .live-clock {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       color: #554436;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
     }
-    .live-clock svg { color: #C8902E; width: 20px; height: 20px; }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 14px;
-    }
-    .stat-card {
-      background: #FBF6EA;
-      border: 1px solid #E6DED2;
-      border-radius: 14px;
-      padding: 16px 18px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .stat-top {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .icon-circle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #F1E0BE;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #554436;
-    }
-    .icon-circle.danger { background: #FCE4DE; color: #BE5032; }
-    .stat-title { font-size: 13px; color: #554436; font-weight: 500; }
-    .stat-val { font-size: 26px; font-weight: 700; color: #2B1B12; }
-    .stat-trend { font-size: 11.5px; font-weight: 700; color: #2E9E5B; }
-    .stat-trend.danger { color: #E04F4A; }
-    .mid-row, .low-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
+    .live-clock svg { color: #C8902E; width: 18px; height: 18px; }
+
     .card-box {
       background: #FBF6EA;
       border: 1px solid #E6DED2;
@@ -202,111 +206,184 @@
       gap: 8px;
     }
     .card-box-header h3 svg { color: #C8902E; width: 18px; height: 18px; }
-    .chart-metric {
-      font-size: 24px;
-      font-weight: 700;
-      color: #2B1B12;
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin-bottom: 8px;
+
+    /* DASHBOARD STATS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
     }
-    .chart-metric span {
-      font-size: 12px;
-      color: #2E9E5B;
-      font-weight: 700;
-    }
-    .status-list {
-      list-style: none;
+    .stat-card {
+      background: #FBF6EA;
+      border: 1px solid #E6DED2;
+      border-radius: 12px;
+      padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
     }
-    .status-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13.5px;
-    }
-    .status-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot.amber { background: #EDAA3A; }
-    .dot.blue { background: #4C8DF6; }
-    .dot.green { background: #2E9E5B; }
-    .dot.purple { background: #7C4DBE; }
-    .dot.red { background: #E04F4A; }
-    .table-status-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      text-align: center;
-      padding: 14px 0;
-      border-bottom: 1px solid #E8E0D4;
-    }
-    .table-col { border-right: 1px solid #E8E0D4; padding: 0 10px; }
-    .table-col:last-child { border-right: none; }
-    .table-bubble {
-      width: 42px;
-      height: 42px;
+    .stat-top { display: flex; align-items: center; gap: 8px; }
+    .icon-circle {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      margin: 0 auto 8px auto;
+      background: #F1E0BE;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #FFF;
+      color: #554436;
     }
-    .orders-table {
+    .icon-circle.danger { background: #FCE4DE; color: #BE5032; }
+    .stat-title { font-size: 12px; color: #554436; font-weight: 600; }
+    .stat-val { font-size: 24px; font-weight: 700; color: #2B1B12; }
+    .stat-trend { font-size: 11px; font-weight: 700; color: #2E9E5B; }
+    .stat-trend.danger { color: #E04F4A; }
+    .mid-row, .low-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    /* TABLES */
+    .data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 12.5px;
-      margin-top: 8px;
+      font-size: 13px;
     }
-    .orders-table th {
+    .data-table th {
       background: #F5EEE0;
-      padding: 8px;
+      padding: 10px 12px;
       color: #5A4B3C;
       font-weight: 700;
       border-bottom: 1px solid #E6DED2;
+      text-align: left;
     }
-    .orders-table td {
-      padding: 8px;
-      text-align: center;
+    .data-table td {
+      padding: 10px 12px;
       border-bottom: 1px solid #EFE8DC;
+      color: #33261C;
     }
+    .data-table tr:hover { background: #FAF3E6; }
     .pill {
       display: inline-block;
-      padding: 3px 12px;
-      border-radius: 20px;
+      padding: 3px 10px;
+      border-radius: 14px;
       font-weight: 700;
       font-size: 11px;
+      text-align: center;
     }
-    .pill.served { background: #E4DBF5; color: #7C4DBE; }
-    .pill.ready { background: #D5F1DE; color: #2E9E5B; }
-    .pill.preparing { background: #DAE9FD; color: #4C8DF6; }
-    .pill.pending { background: #FDEECE; color: #D99322; }
+    .pill.green { background: #D5F1DE; color: #2E9E5B; }
+    .pill.blue { background: #DAE9FD; color: #4C8DF6; }
+    .pill.amber { background: #FDEECE; color: #D99322; }
+    .pill.purple { background: #E4DBF5; color: #7C4DBE; }
+    .pill.red { background: #FCE4DE; color: #E04F4A; }
+
+    /* MENU CARDS */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .menu-card {
+      background: #FFF;
+      border: 1px solid #E6DED2;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .menu-card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      background: #F5EEE0;
+    }
+    .menu-card-body {
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    .menu-card-body h4 { font-size: 15px; color: #2B1B12; font-weight: 700; }
+    .menu-card-body .cat { font-size: 11px; font-weight: 700; color: #C8902E; text-transform: uppercase; }
+    .menu-card-body .desc { font-size: 12px; color: #776655; margin-top: 2px; }
+    .menu-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #F0E8DC;
+    }
+    .menu-card-footer .price { font-size: 16px; font-weight: 700; color: #C8902E; }
+
+    /* DELIVERY MAP CONTAINER */
+    .delivery-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .jaipur-map {
+      background: #F4EEE3;
+      border: 1px solid #E4DBD0;
+      border-radius: 14px;
+      position: relative;
+      height: 380px;
+      overflow: hidden;
+    }
+
+    /* FORM STYLES */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-group label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #554436;
+    }
+    .form-control {
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid #DCD3C5;
+      background: #FFF;
+      font-size: 13px;
+      color: #2F2216;
+      font-family: inherit;
+    }
+    .form-control:focus {
+      outline: 2px solid #C8902E;
+      border-color: #C8902E;
+    }
+
     .footer-strip {
       background: #FBF6EA;
       border: 1px solid #E6DED2;
       border-radius: 12px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: auto;
     }
     .footer-strip p {
       font-family: 'Playfair Display', serif;
       font-style: italic;
       color: #BE8A30;
-      font-size: 17px;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
 
-  <!-- SIDEBAR -->
+  <!-- SIDEBAR NAVIGATION -->
   <aside class="sidebar">
     <div>
       <div class="logo-block">
@@ -316,17 +393,17 @@
       </div>
 
       <ul class="nav-list">
-        <li><a class="nav-item active" href="#"><i data-lucide="home"></i> Dashboard</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="truck"></i> Online Delivery</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="user"></i> User Management</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="utensils"></i> Menu Management</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="package"></i> Inventory</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="clipboard-list"></i> Order Management</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="table"></i> Table Management</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="credit-card"></i> Billing</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="file-text"></i> Bill History</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="bar-chart-2"></i> Reports</a></li>
-        <li><a class="nav-item" href="#"><i data-lucide="settings"></i> Settings</a></li>
+        <li><div class="nav-item active" onclick="showPanel('dashboard')"><i data-lucide="home"></i> Dashboard</div></li>
+        <li><div class="nav-item" onclick="showPanel('delivery')"><i data-lucide="truck"></i> Online Delivery</div></li>
+        <li><div class="nav-item" onclick="showPanel('users')"><i data-lucide="user"></i> User Management</div></li>
+        <li><div class="nav-item" onclick="showPanel('menu')"><i data-lucide="utensils"></i> Menu Management</div></li>
+        <li><div class="nav-item" onclick="showPanel('inventory')"><i data-lucide="package"></i> Inventory</div></li>
+        <li><div class="nav-item" onclick="showPanel('orders')"><i data-lucide="clipboard-list"></i> Order Management</div></li>
+        <li><div class="nav-item" onclick="showPanel('tables')"><i data-lucide="table"></i> Table Management</div></li>
+        <li><div class="nav-item" onclick="showPanel('billing')"><i data-lucide="credit-card"></i> Billing</div></li>
+        <li><div class="nav-item" onclick="showPanel('bill-history')"><i data-lucide="file-text"></i> Bill History</div></li>
+        <li><div class="nav-item" onclick="showPanel('reports')"><i data-lucide="bar-chart-2"></i> Reports</div></li>
+        <li><div class="nav-item" onclick="showPanel('settings')"><i data-lucide="settings"></i> Settings</div></li>
       </ul>
     </div>
 
@@ -336,241 +413,625 @@
     </div>
   </aside>
 
-  <!-- MAIN AREA -->
+  <!-- MAIN DYNAMIC CONTENT AREA -->
   <main class="main-content">
-    <div class="header-bar">
-      <div>
-        <h2>Welcome to DineEase AI</h2>
-        <p>Restaurant Management Dashboard</p>
+
+    <!-- 1. DASHBOARD PANEL -->
+    <div id="panel-dashboard" class="view-panel active-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Welcome to DineEase AI</h2>
+          <p>Restaurant Management Dashboard</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn-gold" onclick="alert('Dashboard data refreshed successfully!')"><i data-lucide="rotate-cw"></i> Refresh</button>
+          <div class="live-clock">
+            <i data-lucide="calendar"></i>
+            <div>
+              <div id="liveDate">Friday, 13 Nov 2026</div>
+              <div id="liveTime" style="color: #736252; font-size: 11px;">12:00 PM</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="header-actions">
-        <button class="btn-refresh" onclick="location.reload()"><i data-lucide="rotate-cw"></i> Refresh</button>
-        <div class="live-clock">
-          <i data-lucide="calendar"></i>
-          <div>
-            <div id="liveDate">Friday, 13 Nov 2026</div>
-            <div id="liveTime" style="color: #736252; font-size: 11px;">12:00 PM</div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="icon-circle"><i data-lucide="user"></i></div>
+            <div class="stat-title">Total Users</div>
+          </div>
+          <div class="stat-val">9</div>
+          <div class="stat-trend">↗ +2 this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="icon-circle"><i data-lucide="utensils"></i></div>
+            <div class="stat-title">Menu Items</div>
+          </div>
+          <div class="stat-val">5</div>
+          <div class="stat-trend">↗ +1 this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="icon-circle"><i data-lucide="package"></i></div>
+            <div class="stat-title">Inventory Items</div>
+          </div>
+          <div class="stat-val">8</div>
+          <div class="stat-trend" style="color: #888;">↗ +0 this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="icon-circle danger"><i data-lucide="alert-triangle"></i></div>
+            <div class="stat-title">Low Stock</div>
+          </div>
+          <div class="stat-val">2</div>
+          <div class="stat-trend danger">↘ -1 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="icon-circle"><i data-lucide="clipboard-list"></i></div>
+            <div class="stat-title">Today's Orders</div>
+          </div>
+          <div class="stat-val">12</div>
+          <div class="stat-trend">↗ +4 vs yesterday</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top">
+            <div class="icon-circle"><i data-lucide="credit-card"></i></div>
+            <div class="stat-title">Today's Revenue</div>
+          </div>
+          <div class="stat-val">₹ 4,850</div>
+          <div class="stat-trend">↗ +12% vs yesterday</div>
+        </div>
+      </div>
+
+      <div class="mid-row">
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="bar-chart-2"></i> Sales Overview</h3>
+            <span style="font-size: 12px; color: #776655;">Last 7 Days</span>
+          </div>
+          <div style="font-size: 13px; color: #736252;">Total Sales</div>
+          <div style="font-size: 24px; font-weight: 700; color: #2B1B12; margin-bottom: 8px;">₹ 45,800 <span style="font-size: 12px; color: #2E9E5B;">↗ +12%</span></div>
+          <svg viewBox="0 0 500 160" style="width: 100%; height: 160px;">
+            <defs>
+              <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#C8902E" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#C8902E" stop-opacity="0.0"/>
+              </linearGradient>
+            </defs>
+            <path d="M 30,120 L 100,95 L 170,110 L 240,85 L 310,70 L 380,85 L 450,40 L 450,150 L 30,150 Z" fill="url(#goldGrad)" />
+            <path d="M 30,120 L 100,95 L 170,110 L 240,85 L 310,70 L 380,85 L 450,40" fill="none" stroke="#C8902E" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="30" cy="120" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+            <circle cx="100" cy="95" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+            <circle cx="170" cy="110" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+            <circle cx="240" cy="85" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+            <circle cx="310" cy="70" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+            <circle cx="380" cy="85" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+            <circle cx="450" cy="40" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+          </svg>
+        </div>
+
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="clipboard-list"></i> Order Status</h3>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1;">
+              <li style="display: flex; justify-content: space-between; font-size: 13.5px;"><span style="color: #D99322;">● Pending</span> <b>2</b></li>
+              <li style="display: flex; justify-content: space-between; font-size: 13.5px;"><span style="color: #4C8DF6;">● Preparing</span> <b>3</b></li>
+              <li style="display: flex; justify-content: space-between; font-size: 13.5px;"><span style="color: #2E9E5B;">● Ready</span> <b>1</b></li>
+              <li style="display: flex; justify-content: space-between; font-size: 13.5px;"><span style="color: #7C4DBE;">● Served</span> <b>8</b></li>
+              <li style="display: flex; justify-content: space-between; font-size: 13.5px;"><span style="color: #E04F4A;">● Cancelled</span> <b>0</b></li>
+            </ul>
+            <div style="width: 140px; height: 140px; position: relative; display: flex; align-items: center; justify-content: center;">
+              <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+                <path stroke="#EDAA3A" stroke-width="4.5" fill="none" stroke-dasharray="16, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path stroke="#4C8DF6" stroke-width="4.5" fill="none" stroke-dasharray="24, 100" stroke-dashoffset="-18" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path stroke="#2E9E5B" stroke-width="4.5" fill="none" stroke-dasharray="8, 100" stroke-dashoffset="-44" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path stroke="#7C4DBE" stroke-width="4.5" fill="none" stroke-dasharray="50, 100" stroke-dashoffset="-54" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+              <div style="position: absolute; text-align: center;">
+                <div style="font-size: 10px; color: #736252;">Total Orders</div>
+                <div style="font-size: 18px; font-weight: 700;">12</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="low-row">
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="table"></i> Table Status</h3>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; text-align: center; padding: 12px 0; border-bottom: 1px solid #E8E0D4;">
+            <div style="border-right: 1px solid #E8E0D4;">
+              <div style="color: #2E9E5B; font-size: 24px; font-weight: 700;">5</div>
+              <div style="font-size: 12px; color: #736252;">Available</div>
+            </div>
+            <div style="border-right: 1px solid #E8E0D4;">
+              <div style="color: #E04F4A; font-size: 24px; font-weight: 700;">3</div>
+              <div style="font-size: 12px; color: #736252;">Occupied</div>
+            </div>
+            <div>
+              <div style="color: #EDAA3A; font-size: 24px; font-weight: 700;">2</div>
+              <div style="font-size: 12px; color: #736252;">Reserved</div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px;">
+            <div style="font-weight: 600; font-size: 13px;">Total Tables</div>
+            <div style="font-size: 16px; font-weight: 700;">10</div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="credit-card"></i> Recent Orders</h3>
+            <span style="font-size: 12px; color: #C8902E; font-weight: 700; cursor: pointer;" onclick="showPanel('orders')">View All</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Order ID</th><th>Table</th><th>Time</th><th>Amount</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#1025</td><td>Table 4</td><td>10:12 AM</td><td>₹ 850</td><td><span class="pill purple">Served</span></td></tr>
+              <tr><td>#1024</td><td>Table 2</td><td>09:58 AM</td><td>₹ 420</td><td><span class="pill green">Ready</span></td></tr>
+              <tr><td>#1023</td><td>Table 7</td><td>09:41 AM</td><td>₹ 650</td><td><span class="pill blue">Preparing</span></td></tr>
+              <tr><td>#1022</td><td>Table 1</td><td>09:25 AM</td><td>₹ 920</td><td><span class="pill amber">Pending</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. ONLINE DELIVERY PANEL (JAIPUR MAP) -->
+    <div id="panel-delivery" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Jaipur Online Delivery & Live GPS Tracking</h2>
+          <p>Express coverage for Sitapura, Mansarovar, Malviya Nagar, Vaishali Nagar & Raja Park</p>
+        </div>
+        <button class="btn-gold" onclick="alert('Order Dispatched successfully!')"><i data-lucide="plus"></i> New Delivery Order</button>
+      </div>
+
+      <div class="delivery-layout">
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="truck"></i> Active Jaipur Deliveries</h3>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Order</th><th>Customer</th><th>Area</th><th>Amount</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#D101</td><td>Rohit Sharma</td><td>Mansarovar</td><td>₹ 480</td><td><span class="pill blue">Out for Delivery</span></td></tr>
+              <tr><td>#D102</td><td>Ananya Gupta</td><td>Sitapura</td><td>₹ 390</td><td><span class="pill amber">Preparing</span></td></tr>
+              <tr><td>#D103</td><td>Vikramaditya Rathore</td><td>Malviya Nagar</td><td>₹ 520</td><td><span class="pill blue">Out for Delivery</span></td></tr>
+              <tr><td>#D104</td><td>Pooja Choudhary</td><td>Vaishali Nagar</td><td>₹ 650</td><td><span class="pill purple">Order Placed</span></td></tr>
+              <tr><td>#D105</td><td>Deepak Khandelwal</td><td>Raja Park</td><td>₹ 310</td><td><span class="pill green">Delivered</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="map-pin"></i> Jaipur Live GPS Tracking</h3>
+            <span style="font-size: 11.5px; font-weight: 700; color: #2E9E5B;">● Live Dispatching</span>
+          </div>
+          <div class="jaipur-map">
+            <svg viewBox="0 0 500 380" style="width: 100%; height: 100%;">
+              <!-- Arterial roads -->
+              <path d="M 120,320 L 260,200 L 380,120" stroke="#E2D4C0" stroke-width="8" fill="none"/>
+              <path d="M 260,200 L 220,110 L 150,70" stroke="#E2D4C0" stroke-width="8" fill="none"/>
+              <path d="M 260,200 L 390,260" stroke="#E2D4C0" stroke-width="8" fill="none"/>
+              <!-- Active Route -->
+              <path d="M 120,320 L 260,200 L 220,110" stroke="#C8902E" stroke-width="4" stroke-dasharray="6,4" fill="none"/>
+              <!-- Sitapura Hub -->
+              <circle cx="120" cy="320" r="14" fill="#2E9E5B"/>
+              <text x="140" y="325" font-size="12" font-weight="700" fill="#2E9E5B">★ Sitapura (Kitchen Hub)</text>
+              <!-- Mansarovar -->
+              <circle cx="220" cy="110" r="12" fill="#E04F4A"/>
+              <text x="238" y="115" font-size="12" font-weight="700" fill="#2F2216">Mansarovar (Destination)</text>
+              <!-- Malviya Nagar -->
+              <circle cx="260" cy="200" r="10" fill="#EDAA3A"/>
+              <text x="278" y="205" font-size="11" font-weight="600" fill="#554436">Malviya Nagar</text>
+              <!-- Vaishali Nagar -->
+              <circle cx="150" cy="70" r="10" fill="#EDAA3A"/>
+              <text x="165" y="65" font-size="11" font-weight="600" fill="#554436">Vaishali Nagar</text>
+              <!-- Raja Park -->
+              <circle cx="380" cy="120" r="10" fill="#EDAA3A"/>
+              <text x="395" y="125" font-size="11" font-weight="600" fill="#554436">Raja Park</text>
+              <!-- Moving Rider -->
+              <circle cx="240" cy="155" r="9" fill="#4C8DF6" stroke="#FFF" stroke-width="2"/>
+              <rect x="200" y="170" width="100" height="20" rx="4" fill="#3B2414"/>
+              <text x="210" y="184" font-size="10" font-weight="700" fill="#FFF">🛵 Rider on way</text>
+            </svg>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 6 STAT CARDS -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="icon-circle"><i data-lucide="user"></i></div>
-          <div class="stat-title">Total Users</div>
+    <!-- 3. USER MANAGEMENT -->
+    <div id="panel-users" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>User Management</h2>
+          <p>System users, permissions, and administrative access</p>
         </div>
-        <div class="stat-val">9</div>
-        <div class="stat-trend">↗ +2 this month</div>
+        <button class="btn-gold" onclick="alert('Add User form opened!')"><i data-lucide="plus"></i> Add New User</button>
       </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="icon-circle"><i data-lucide="utensils"></i></div>
-          <div class="stat-title">Menu Items</div>
-        </div>
-        <div class="stat-val">5</div>
-        <div class="stat-trend">↗ +1 this month</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="icon-circle"><i data-lucide="package"></i></div>
-          <div class="stat-title">Inventory Items</div>
-        </div>
-        <div class="stat-val">8</div>
-        <div class="stat-trend" style="color: #888;">↗ +0 this month</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="icon-circle danger"><i data-lucide="alert-triangle"></i></div>
-          <div class="stat-title">Low Stock</div>
-        </div>
-        <div class="stat-val">2</div>
-        <div class="stat-trend danger">↘ -1 this week</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="icon-circle"><i data-lucide="clipboard-list"></i></div>
-          <div class="stat-title">Today's Orders</div>
-        </div>
-        <div class="stat-val">12</div>
-        <div class="stat-trend">↗ +4 vs yesterday</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top">
-          <div class="icon-circle"><i data-lucide="credit-card"></i></div>
-          <div class="stat-title">Today's Revenue</div>
-        </div>
-        <div class="stat-val">₹ 4,850</div>
-        <div class="stat-trend">↗ +12% vs yesterday</div>
+      <div class="card-box">
+        <table class="data-table">
+          <thead>
+            <tr><th>User ID</th><th>Full Name</th><th>Email</th><th>Role</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>#U1</td><td>Administrator</td><td>admin@dineease.com</td><td><span class="pill purple">ADMIN</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
+            <tr><td>#U2</td><td>Chef Suresh</td><td>suresh@dineease.com</td><td><span class="pill blue">STAFF</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
+            <tr><td>#U3</td><td>Manager Rajat</td><td>rajat@dineease.com</td><td><span class="pill amber">MANAGER</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
+            <tr><td>#U4</td><td>Cashier Neha</td><td>neha@dineease.com</td><td><span class="pill blue">STAFF</span></td><td><span class="pill green">Active</span></td><td><button class="btn-secondary">Edit</button></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- MIDDLE ROW -->
-    <div class="mid-row">
-      <div class="card-box">
-        <div class="card-box-header">
-          <h3><i data-lucide="bar-chart-2"></i> Sales Overview</h3>
-          <select style="padding: 4px 8px; border-radius: 6px; border: 1px solid #DDD; font-size: 12px; background: #FFF;">
-            <option>Last 7 Days</option>
-            <option>Today</option>
-            <option>This Month</option>
-          </select>
+    <!-- 4. MENU MANAGEMENT -->
+    <div id="panel-menu" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Restaurant Menu Management</h2>
+          <p>Add, edit, categories, and manage food dishes</p>
         </div>
-        <div style="font-size: 13px; color: #736252;">Total Sales</div>
-        <div class="chart-metric">₹ 45,800 <span>↗ +12%</span></div>
-        <svg viewBox="0 0 500 160" style="width: 100%; height: 160px;">
-          <defs>
-            <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#C8902E" stop-opacity="0.4"/>
-              <stop offset="100%" stop-color="#C8902E" stop-opacity="0.0"/>
-            </linearGradient>
-          </defs>
-          <path d="M 30,120 L 100,95 L 170,110 L 240,85 L 310,70 L 380,85 L 450,40 L 450,150 L 30,150 Z" fill="url(#goldGrad)" />
-          <path d="M 30,120 L 100,95 L 170,110 L 240,85 L 310,70 L 380,85 L 450,40" fill="none" stroke="#C8902E" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="30" cy="120" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
-          <circle cx="100" cy="95" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
-          <circle cx="170" cy="110" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
-          <circle cx="240" cy="85" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
-          <circle cx="310" cy="70" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
-          <circle cx="380" cy="85" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
-          <circle cx="450" cy="40" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
-        </svg>
+        <button class="btn-gold" onclick="alert('Add dish dialog')"><i data-lucide="plus"></i> Add Menu Item</button>
       </div>
-
-      <div class="card-box">
-        <div class="card-box-header">
-          <h3><i data-lucide="clipboard-list"></i> Order Status</h3>
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-body">
+            <span class="cat">Starter</span>
+            <h4>Paneer Tikka</h4>
+            <p class="desc">Charcoal grilled cottage cheese with aromatic spices.</p>
+            <div class="menu-card-footer">
+              <span class="price">₹ 145.00</span>
+              <button class="btn-danger" onclick="alert('Item deleted!')">Delete</button>
+            </div>
+          </div>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-          <ul class="status-list" style="flex: 1;">
-            <li class="status-item"><div class="status-left"><div class="dot amber"></div> Pending</div> <b>2</b></li>
-            <li class="status-item"><div class="status-left"><div class="dot blue"></div> Preparing</div> <b>3</b></li>
-            <li class="status-item"><div class="status-left"><div class="dot green"></div> Ready</div> <b>1</b></li>
-            <li class="status-item"><div class="status-left"><div class="dot purple"></div> Served</div> <b>8</b></li>
-            <li class="status-item"><div class="status-left"><div class="dot red"></div> Cancelled</div> <b>0</b></li>
-          </ul>
-          <div style="width: 140px; height: 140px; position: relative; display: flex; align-items: center; justify-content: center;">
-            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
-              <path stroke="#EDAA3A" stroke-width="4.5" fill="none" stroke-dasharray="16, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-              <path stroke="#4C8DF6" stroke-width="4.5" fill="none" stroke-dasharray="24, 100" stroke-dashoffset="-18" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-              <path stroke="#2E9E5B" stroke-width="4.5" fill="none" stroke-dasharray="8, 100" stroke-dashoffset="-44" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-              <path stroke="#7C4DBE" stroke-width="4.5" fill="none" stroke-dasharray="50, 100" stroke-dashoffset="-54" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            </svg>
-            <div style="position: absolute; text-align: center;">
-              <div style="font-size: 10px; color: #736252;">Total Orders</div>
-              <div style="font-size: 18px; font-weight: 700;">12</div>
+        <div class="menu-card">
+          <div class="menu-card-body">
+            <span class="cat">Starter</span>
+            <h4>Steam Momos</h4>
+            <p class="desc">Soft steamed dumplings served with red chilli chutney.</p>
+            <div class="menu-card-footer">
+              <span class="price">₹ 120.00</span>
+              <button class="btn-danger" onclick="alert('Item deleted!')">Delete</button>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-body">
+            <span class="cat">Starter</span>
+            <h4>Kurkure Momos</h4>
+            <p class="desc">Crispy batter-fried momos with spicy mayo dip.</p>
+            <div class="menu-card-footer">
+              <span class="price">₹ 180.00</span>
+              <button class="btn-danger" onclick="alert('Item deleted!')">Delete</button>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-body">
+            <span class="cat">Beverage</span>
+            <h4>Cold Coffee</h4>
+            <p class="desc">Rich blended coffee with dark chocolate syrup.</p>
+            <div class="menu-card-footer">
+              <span class="price">₹ 150.00</span>
+              <button class="btn-danger" onclick="alert('Item deleted!')">Delete</button>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-body">
+            <span class="cat">Dessert</span>
+            <h4>Gulab Jamun</h4>
+            <p class="desc">Warm melt-in-mouth milk solids soaked in rose cardamom sugar syrup.</p>
+            <div class="menu-card-footer">
+              <span class="price">₹ 250.00</span>
+              <button class="btn-danger" onclick="alert('Item deleted!')">Delete</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- LOWER ROW -->
-    <div class="low-row">
-      <div class="card-box">
-        <div class="card-box-header">
-          <h3><i data-lucide="table"></i> Table Status</h3>
+    <!-- 5. INVENTORY -->
+    <div id="panel-inventory" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Stock & Inventory Control</h2>
+          <p>Track raw materials, ingredients and reorder thresholds</p>
         </div>
-        <div class="table-status-grid">
-          <div class="table-col">
-            <div class="table-bubble" style="background: #2E9E5B;"><i data-lucide="utensils"></i></div>
-            <div style="font-size: 12.5px; color: #736252;">Available</div>
-            <div style="font-size: 22px; font-weight: 700;">5</div>
-          </div>
-          <div class="table-col">
-            <div class="table-bubble" style="background: #E04F4A;"><i data-lucide="utensils"></i></div>
-            <div style="font-size: 12.5px; color: #736252;">Occupied</div>
-            <div style="font-size: 22px; font-weight: 700;">3</div>
-          </div>
-          <div class="table-col">
-            <div class="table-bubble" style="background: #EDAA3A;"><i data-lucide="utensils"></i></div>
-            <div style="font-size: 12.5px; color: #736252;">Reserved</div>
-            <div style="font-size: 22px; font-weight: 700;">2</div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px;">
-          <div style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px;">
-            <i data-lucide="table" style="width: 16px; height: 16px;"></i> Total Tables
-          </div>
-          <div style="font-size: 16px; font-weight: 700;">10</div>
-        </div>
+        <button class="btn-gold" onclick="alert('New item added')"><i data-lucide="plus"></i> Add Inventory Item</button>
       </div>
-
       <div class="card-box">
-        <div class="card-box-header">
-          <h3><i data-lucide="credit-card"></i> Recent Orders</h3>
-          <span style="font-size: 12px; color: #C8902E; font-weight: 700; cursor: pointer;">View All</span>
-        </div>
-        <table class="orders-table">
+        <table class="data-table">
           <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Table No.</th>
-              <th>Time</th>
-              <th>Amount</th>
-              <th>Status</th>
-            </tr>
+            <tr><th>Item Name</th><th>Category</th><th>Current Qty</th><th>Reorder Level</th><th>Status</th><th>Actions</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#1025</td>
-              <td>Table 4</td>
-              <td>10:12 AM</td>
-              <td>₹ 850</td>
-              <td><span class="pill served">Served</span></td>
-            </tr>
-            <tr>
-              <td>#1024</td>
-              <td>Table 2</td>
-              <td>09:58 AM</td>
-              <td>₹ 420</td>
-              <td><span class="pill ready">Ready</span></td>
-            </tr>
-            <tr>
-              <td>#1023</td>
-              <td>Table 7</td>
-              <td>09:41 AM</td>
-              <td>₹ 650</td>
-              <td><span class="pill preparing">Preparing</span></td>
-            </tr>
-            <tr>
-              <td>#1022</td>
-              <td>Table 1</td>
-              <td>09:25 AM</td>
-              <td>₹ 920</td>
-              <td><span class="pill pending">Pending</span></td>
-            </tr>
-            <tr>
-              <td>#1021</td>
-              <td>Table 5</td>
-              <td>08:50 AM</td>
-              <td>₹ 780</td>
-              <td><span class="pill served">Served</span></td>
-            </tr>
+            <tr><td>Paneer (Cottage Cheese)</td><td>Dairy</td><td>15.5 kg</td><td>5.0 kg</td><td><span class="pill green">In Stock</span></td><td><button class="btn-secondary">Update</button></td></tr>
+            <tr><td>Basmati Rice</td><td>Grains</td><td>40.0 kg</td><td>10.0 kg</td><td><span class="pill green">In Stock</span></td><td><button class="btn-secondary">Update</button></td></tr>
+            <tr><td>Cooking Oil</td><td>Grocery</td><td>3.0 Litres</td><td>10.0 Litres</td><td><span class="pill red">Low Stock</span></td><td><button class="btn-secondary">Reorder</button></td></tr>
+            <tr><td>Amul Butter</td><td>Dairy</td><td>2.0 kg</td><td>5.0 kg</td><td><span class="pill red">Low Stock</span></td><td><button class="btn-secondary">Reorder</button></td></tr>
+            <tr><td>Coffee Beans</td><td>Beverages</td><td>8.0 kg</td><td>2.0 kg</td><td><span class="pill green">In Stock</span></td><td><button class="btn-secondary">Update</button></td></tr>
           </tbody>
         </table>
       </div>
     </div>
 
+    <!-- 6. ORDER MANAGEMENT -->
+    <div id="panel-orders" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Live Dining & Takeaway Orders</h2>
+          <p>Real-time order statuses and kitchen ticket display</p>
+        </div>
+        <button class="btn-gold" onclick="alert('Create order dialog')"><i data-lucide="plus"></i> Create New Order</button>
+      </div>
+      <div class="card-box">
+        <table class="data-table">
+          <thead>
+            <tr><th>Order ID</th><th>Table / Type</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>#1025</td><td>Table 4</td><td>1x Paneer Tikka, 2x Naan</td><td>₹ 850.00</td><td><span class="pill purple">Served</span></td><td><button class="btn-secondary">Print KOT</button></td></tr>
+            <tr><td>#1024</td><td>Table 2</td><td>2x Cold Coffee</td><td>₹ 420.00</td><td><span class="pill green">Ready</span></td><td><button class="btn-secondary">Serve</button></td></tr>
+            <tr><td>#1023</td><td>Table 7</td><td>2x Steam Momos</td><td>₹ 650.00</td><td><span class="pill blue">Preparing</span></td><td><button class="btn-secondary">Mark Ready</button></td></tr>
+            <tr><td>#1022</td><td>Table 1</td><td>1x Royal Thali</td><td>₹ 920.00</td><td><span class="pill amber">Pending</span></td><td><button class="btn-secondary">Send to Kitchen</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 7. TABLE MANAGEMENT -->
+    <div id="panel-tables" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Table Management & Floor Layout</h2>
+          <p>Dining table availability, guest seating, and reservations</p>
+        </div>
+        <button class="btn-gold" onclick="alert('Table added')"><i data-lucide="plus"></i> Add Table</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;">
+        <div class="card-box" style="text-align: center; border-top: 4px solid #2E9E5B;">
+          <h3 style="font-size: 18px;">Table 1</h3>
+          <p style="font-size: 12px; color: #776655;">Capacity: 4 Guests</p>
+          <div style="margin-top: 10px;"><span class="pill green">Available</span></div>
+        </div>
+        <div class="card-box" style="text-align: center; border-top: 4px solid #E04F4A;">
+          <h3 style="font-size: 18px;">Table 2</h3>
+          <p style="font-size: 12px; color: #776655;">Capacity: 2 Guests</p>
+          <div style="margin-top: 10px;"><span class="pill red">Occupied</span></div>
+        </div>
+        <div class="card-box" style="text-align: center; border-top: 4px solid #EDAA3A;">
+          <h3 style="font-size: 18px;">Table 3</h3>
+          <p style="font-size: 12px; color: #776655;">Capacity: 6 Guests</p>
+          <div style="margin-top: 10px;"><span class="pill amber">Reserved</span></div>
+        </div>
+        <div class="card-box" style="text-align: center; border-top: 4px solid #E04F4A;">
+          <h3 style="font-size: 18px;">Table 4</h3>
+          <p style="font-size: 12px; color: #776655;">Capacity: 4 Guests</p>
+          <div style="margin-top: 10px;"><span class="pill red">Occupied</span></div>
+        </div>
+        <div class="card-box" style="text-align: center; border-top: 4px solid #2E9E5B;">
+          <h3 style="font-size: 18px;">Table 5</h3>
+          <p style="font-size: 12px; color: #776655;">Capacity: 8 Guests</p>
+          <div style="margin-top: 10px;"><span class="pill green">Available</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. BILLING -->
+    <div id="panel-billing" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Generate Bill & POS Checkout</h2>
+          <p>Settle table checks, print invoices and accept payments</p>
+        </div>
+      </div>
+      <div class="card-box" style="max-width: 650px;">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Select Table</label>
+            <select class="form-control">
+              <option>Table 4 (Active Order #1025 - ₹ 850.00)</option>
+              <option>Table 2 (Active Order #1024 - ₹ 420.00)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Payment Method</label>
+            <select class="form-control">
+              <option>UPI / QR Code</option>
+              <option>Cash</option>
+              <option>Credit / Debit Card</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Subtotal (₹)</label>
+            <input class="form-control" value="850.00" readonly>
+          </div>
+          <div class="form-group">
+            <label>GST Tax (5%)</label>
+            <input class="form-control" value="42.50" readonly>
+          </div>
+        </div>
+        <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E6DED2; padding-top: 14px;">
+          <div>
+            <span style="font-size: 13px; color: #776655;">Total Payable:</span>
+            <div style="font-size: 24px; font-weight: 700; color: #2E9E5B;">₹ 892.50</div>
+          </div>
+          <button class="btn-gold" onclick="alert('Payment marked as PAID & Bill Generated!')"><i data-lucide="check"></i> Mark as Paid & Print Bill</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. BILL HISTORY -->
+    <div id="panel-bill-history" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Billing History & Invoices</h2>
+          <p>Past settlement records, payment modes and transaction receipts</p>
+        </div>
+      </div>
+      <div class="card-box">
+        <table class="data-table">
+          <thead>
+            <tr><th>Invoice #</th><th>Table / Order</th><th>Amount</th><th>Payment Mode</th><th>Status</th><th>Paid At</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>#INV-101</td><td>Table 1 (#1020)</td><td>₹ 1,250.00</td><td>UPI</td><td><span class="pill green">PAID</span></td><td>13 Nov, 10:45 AM</td></tr>
+            <tr><td>#INV-102</td><td>Table 3 (#1019)</td><td>₹ 680.00</td><td>Cash</td><td><span class="pill green">PAID</span></td><td>13 Nov, 09:30 AM</td></tr>
+            <tr><td>#INV-103</td><td>Table 5 (#1018)</td><td>₹ 2,400.00</td><td>Credit Card</td><td><span class="pill green">PAID</span></td><td>12 Nov, 08:20 PM</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 10. REPORTS -->
+    <div id="panel-reports" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>Analytics & Sales Performance</h2>
+          <p>Revenue distribution and performance reports</p>
+        </div>
+      </div>
+      <div class="mid-row">
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="bar-chart-2"></i> Daily Sales Breakdown</h3>
+          </div>
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Orders</th><th>Revenue</th></tr></thead>
+            <tbody>
+              <tr><td>13 Nov 2026</td><td>12</td><td>₹ 4,850.00</td></tr>
+              <tr><td>12 Nov 2026</td><td>18</td><td>₹ 7,320.00</td></tr>
+              <tr><td>11 Nov 2026</td><td>15</td><td>₹ 6,100.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="utensils"></i> Top Selling Categories</h3>
+          </div>
+          <table class="data-table">
+            <thead><tr><th>Category</th><th>Items</th><th>Price Range</th></tr></thead>
+            <tbody>
+              <tr><td>Starters</td><td>3 dishes</td><td>₹ 120 - ₹ 180</td></tr>
+              <tr><td>Beverages</td><td>1 dish</td><td>₹ 150 - ₹ 150</td></tr>
+              <tr><td>Desserts</td><td>1 dish</td><td>₹ 250 - ₹ 250</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. SETTINGS -->
+    <div id="panel-settings" class="view-panel">
+      <div class="header-bar">
+        <div>
+          <h2>System Settings & Configuration</h2>
+          <p>Restaurant profile, database parameters and system properties</p>
+        </div>
+        <button class="btn-gold" onclick="alert('Settings saved successfully!')"><i data-lucide="save"></i> Save Settings</button>
+      </div>
+      <div class="mid-row">
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="utensils"></i> Restaurant Information</h3>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="form-group">
+              <label>Restaurant Name</label>
+              <input class="form-control" value="DineEase AI Restaurant">
+            </div>
+            <div class="form-group">
+              <label>Slogan / Tagline</label>
+              <input class="form-control" value="Good Food • Good Mood • DineEase">
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input class="form-control" value="Sitapura Industrial Area, Jaipur, Rajasthan">
+            </div>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div class="card-box-header">
+            <h3><i data-lucide="database"></i> MySQL Database Configuration</h3>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="form-group">
+              <label>Database Host</label>
+              <input class="form-control" value="localhost">
+            </div>
+            <div class="form-group">
+              <label>Database Name</label>
+              <input class="form-control" value="dineease">
+            </div>
+            <div class="form-group">
+              <label>User</label>
+              <input class="form-control" value="root">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- FOOTER STRIP -->
     <div class="footer-strip">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <i data-lucide="utensils" style="color: #C8902E;"></i>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <i data-lucide="utensils" style="color: #C8902E; width: 18px;"></i>
         <p>Good Food • Good Mood • DineEase</p>
       </div>
-      <div style="font-size: 18px; color: #C8902E;">🌿</div>
+      <div style="font-size: 16px; color: #C8902E;">🌿</div>
     </div>
   </main>
 
   <script>
     lucide.createIcons();
+
+    function showPanel(panelKey) {
+      // 1. Hide all panels
+      const panels = document.querySelectorAll('.view-panel');
+      panels.forEach(p => p.classList.remove('active-panel'));
+
+      // 2. Remove active class from nav items
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => item.classList.remove('active'));
+
+      // 3. Show selected panel
+      const targetPanel = document.getElementById('panel-' + panelKey);
+      if (targetPanel) {
+        targetPanel.classList.add('active-panel');
+      }
+
+      // 4. Mark clicked sidebar item as active
+      event.currentTarget.classList.add('active');
+
+      // Refresh icons in newly visible panel
+      lucide.createIcons();
+    }
+
     function updateClock() {
       const now = new Date();
       const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
-      document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', options);
-      document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const dEl = document.getElementById('liveDate');
+      const tEl = document.getElementById('liveTime');
+      if (dEl && tEl) {
+        dEl.textContent = now.toLocaleDateString('en-US', options);
+        tEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      }
     }
     setInterval(updateClock, 1000);
     updateClock();
