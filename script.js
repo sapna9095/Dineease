@@ -71,8 +71,9 @@ function handleLogin(event) {
         strokeWidth: 1.8,
       },
     });
-    // TODO: Replace with backend integration.
-  }, 1000);
+    // Redirect to the web dashboard view
+    window.location.href = 'dashboard.html';
+  }, 800);
 }
 
 loginForm.addEventListener('submit', handleLogin);

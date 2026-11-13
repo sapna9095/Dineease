@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DineEase AI - Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #F7F1E5;
+      color: #2F2216;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 288px;
+      min-width: 288px;
+      background: #3B2414;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px 20px 20px 20px;
+    }
+    .logo-block h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      color: #C8902E;
+      line-height: 1;
+    }
+    .logo-block .sub-ai {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: #FFFFFF;
+      margin-top: 4px;
+    }
+    .logo-block .tagline {
+      font-size: 10px;
+      font-weight: 700;
+      color: #B9A896;
+      letter-spacing: 1.5px;
+      margin-top: 6px;
+    }
+    .nav-list {
+      list-style: none;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      color: #B9A896;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFF;
+    }
+    .nav-item.active {
+      background: #8A602A;
+      color: #FFFFFF;
+    }
+    .nav-item svg { width: 18px; height: 18px; stroke-width: 2; }
+    .nav-item.active svg { color: #C8902E; }
+    .sidebar-footer {
+      border-top: 1px solid #5A412D;
+      padding-top: 16px;
+    }
+    .sidebar-footer .user-title {
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .sidebar-footer .app-ver {
+      color: #B9A896;
+      font-size: 11.5px;
+      margin-top: 3px;
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 24px 32px;
+      gap: 20px;
+    }
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-bar h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: #2F2216;
+    }
+    .header-bar p {
+      color: #736252;
+      font-size: 14.5px;
+      margin-top: 2px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .btn-refresh {
+      background: #C8902E;
+      color: #FFF;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .btn-refresh:hover { background: #b37e25; }
+    .live-clock {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #554436;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .live-clock svg { color: #C8902E; width: 20px; height: 20px; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+    }
+    .stat-card {
+      background: #FBF6EA;
+      border: 1px solid #E6DED2;
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stat-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .icon-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #F1E0BE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #554436;
+    }
+    .icon-circle.danger { background: #FCE4DE; color: #BE5032; }
+    .stat-title { font-size: 13px; color: #554436; font-weight: 500; }
+    .stat-val { font-size: 26px; font-weight: 700; color: #2B1B12; }
+    .stat-trend { font-size: 11.5px; font-weight: 700; color: #2E9E5B; }
+    .stat-trend.danger { color: #E04F4A; }
+    .mid-row, .low-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .card-box {
+      background: #FBF6EA;
+      border: 1px solid #E6DED2;
+      border-radius: 14px;
+      padding: 18px 22px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+    .card-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .card-box-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-box-header h3 svg { color: #C8902E; width: 18px; height: 18px; }
+    .chart-metric {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2B1B12;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .chart-metric span {
+      font-size: 12px;
+      color: #2E9E5B;
+      font-weight: 700;
+    }
+    .status-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+    }
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.amber { background: #EDAA3A; }
+    .dot.blue { background: #4C8DF6; }
+    .dot.green { background: #2E9E5B; }
+    .dot.purple { background: #7C4DBE; }
+    .dot.red { background: #E04F4A; }
+    .table-status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      text-align: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #E8E0D4;
+    }
+    .table-col { border-right: 1px solid #E8E0D4; padding: 0 10px; }
+    .table-col:last-child { border-right: none; }
+    .table-bubble {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      margin: 0 auto 8px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+    }
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      margin-top: 8px;
+    }
+    .orders-table th {
+      background: #F5EEE0;
+      padding: 8px;
+      color: #5A4B3C;
+      font-weight: 700;
+      border-bottom: 1px solid #E6DED2;
+    }
+    .orders-table td {
+      padding: 8px;
+      text-align: center;
+      border-bottom: 1px solid #EFE8DC;
+    }
+    .pill {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .pill.served { background: #E4DBF5; color: #7C4DBE; }
+    .pill.ready { background: #D5F1DE; color: #2E9E5B; }
+    .pill.preparing { background: #DAE9FD; color: #4C8DF6; }
+    .pill.pending { background: #FDEECE; color: #D99322; }
+    .footer-strip {
+      background: #FBF6EA;
+      border: 1px solid #E6DED2;
+      border-radius: 12px;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-strip p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #BE8A30;
+      font-size: 17px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="logo-block">
+        <h1>DineEase</h1>
+        <div class="sub-ai">AI</div>
+        <div class="tagline">RESTAURANT MANAGEMENT</div>
+      </div>
+
+      <ul class="nav-list">
+        <li><a class="nav-item active" href="#"><i data-lucide="home"></i> Dashboard</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="truck"></i> Online Delivery</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="user"></i> User Management</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="utensils"></i> Menu Management</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="package"></i> Inventory</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="clipboard-list"></i> Order Management</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="table"></i> Table Management</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="credit-card"></i> Billing</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="file-text"></i> Bill History</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="bar-chart-2"></i> Reports</a></li>
+        <li><a class="nav-item" href="#"><i data-lucide="settings"></i> Settings</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-title">Administrator</div>
+      <div class="app-ver">DineEase AI • v1.0</div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="main-content">
+    <div class="header-bar">
+      <div>
+        <h2>Welcome to DineEase AI</h2>
+        <p>Restaurant Management Dashboard</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-refresh" onclick="location.reload()"><i data-lucide="rotate-cw"></i> Refresh</button>
+        <div class="live-clock">
+          <i data-lucide="calendar"></i>
+          <div>
+            <div id="liveDate">Friday, 13 Nov 2026</div>
+            <div id="liveTime" style="color: #736252; font-size: 11px;">12:00 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 STAT CARDS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="icon-circle"><i data-lucide="user"></i></div>
+          <div class="stat-title">Total Users</div>
+        </div>
+        <div class="stat-val">9</div>
+        <div class="stat-trend">↗ +2 this month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="icon-circle"><i data-lucide="utensils"></i></div>
+          <div class="stat-title">Menu Items</div>
+        </div>
+        <div class="stat-val">5</div>
+        <div class="stat-trend">↗ +1 this month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="icon-circle"><i data-lucide="package"></i></div>
+          <div class="stat-title">Inventory Items</div>
+        </div>
+        <div class="stat-val">8</div>
+        <div class="stat-trend" style="color: #888;">↗ +0 this month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="icon-circle danger"><i data-lucide="alert-triangle"></i></div>
+          <div class="stat-title">Low Stock</div>
+        </div>
+        <div class="stat-val">2</div>
+        <div class="stat-trend danger">↘ -1 this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="icon-circle"><i data-lucide="clipboard-list"></i></div>
+          <div class="stat-title">Today's Orders</div>
+        </div>
+        <div class="stat-val">12</div>
+        <div class="stat-trend">↗ +4 vs yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="icon-circle"><i data-lucide="credit-card"></i></div>
+          <div class="stat-title">Today's Revenue</div>
+        </div>
+        <div class="stat-val">₹ 4,850</div>
+        <div class="stat-trend">↗ +12% vs yesterday</div>
+      </div>
+    </div>
+
+    <!-- MIDDLE ROW -->
+    <div class="mid-row">
+      <div class="card-box">
+        <div class="card-box-header">
+          <h3><i data-lucide="bar-chart-2"></i> Sales Overview</h3>
+          <select style="padding: 4px 8px; border-radius: 6px; border: 1px solid #DDD; font-size: 12px; background: #FFF;">
+            <option>Last 7 Days</option>
+            <option>Today</option>
+            <option>This Month</option>
+          </select>
+        </div>
+        <div style="font-size: 13px; color: #736252;">Total Sales</div>
+        <div class="chart-metric">₹ 45,800 <span>↗ +12%</span></div>
+        <svg viewBox="0 0 500 160" style="width: 100%; height: 160px;">
+          <defs>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C8902E" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#C8902E" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <path d="M 30,120 L 100,95 L 170,110 L 240,85 L 310,70 L 380,85 L 450,40 L 450,150 L 30,150 Z" fill="url(#goldGrad)" />
+          <path d="M 30,120 L 100,95 L 170,110 L 240,85 L 310,70 L 380,85 L 450,40" fill="none" stroke="#C8902E" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="30" cy="120" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+          <circle cx="100" cy="95" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+          <circle cx="170" cy="110" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+          <circle cx="240" cy="85" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+          <circle cx="310" cy="70" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+          <circle cx="380" cy="85" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+          <circle cx="450" cy="40" r="4" fill="#FFF" stroke="#C8902E" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <div class="card-box">
+        <div class="card-box-header">
+          <h3><i data-lucide="clipboard-list"></i> Order Status</h3>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+          <ul class="status-list" style="flex: 1;">
+            <li class="status-item"><div class="status-left"><div class="dot amber"></div> Pending</div> <b>2</b></li>
+            <li class="status-item"><div class="status-left"><div class="dot blue"></div> Preparing</div> <b>3</b></li>
+            <li class="status-item"><div class="status-left"><div class="dot green"></div> Ready</div> <b>1</b></li>
+            <li class="status-item"><div class="status-left"><div class="dot purple"></div> Served</div> <b>8</b></li>
+            <li class="status-item"><div class="status-left"><div class="dot red"></div> Cancelled</div> <b>0</b></li>
+          </ul>
+          <div style="width: 140px; height: 140px; position: relative; display: flex; align-items: center; justify-content: center;">
+            <svg viewBox="0 0 36 36" style="width: 100%; height: 100%; transform: rotate(-90deg);">
+              <path stroke="#EDAA3A" stroke-width="4.5" fill="none" stroke-dasharray="16, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path stroke="#4C8DF6" stroke-width="4.5" fill="none" stroke-dasharray="24, 100" stroke-dashoffset="-18" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path stroke="#2E9E5B" stroke-width="4.5" fill="none" stroke-dasharray="8, 100" stroke-dashoffset="-44" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path stroke="#7C4DBE" stroke-width="4.5" fill="none" stroke-dasharray="50, 100" stroke-dashoffset="-54" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <div style="position: absolute; text-align: center;">
+              <div style="font-size: 10px; color: #736252;">Total Orders</div>
+              <div style="font-size: 18px; font-weight: 700;">12</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOWER ROW -->
+    <div class="low-row">
+      <div class="card-box">
+        <div class="card-box-header">
+          <h3><i data-lucide="table"></i> Table Status</h3>
+        </div>
+        <div class="table-status-grid">
+          <div class="table-col">
+            <div class="table-bubble" style="background: #2E9E5B;"><i data-lucide="utensils"></i></div>
+            <div style="font-size: 12.5px; color: #736252;">Available</div>
+            <div style="font-size: 22px; font-weight: 700;">5</div>
+          </div>
+          <div class="table-col">
+            <div class="table-bubble" style="background: #E04F4A;"><i data-lucide="utensils"></i></div>
+            <div style="font-size: 12.5px; color: #736252;">Occupied</div>
+            <div style="font-size: 22px; font-weight: 700;">3</div>
+          </div>
+          <div class="table-col">
+            <div class="table-bubble" style="background: #EDAA3A;"><i data-lucide="utensils"></i></div>
+            <div style="font-size: 12.5px; color: #736252;">Reserved</div>
+            <div style="font-size: 22px; font-weight: 700;">2</div>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px;">
+          <div style="display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px;">
+            <i data-lucide="table" style="width: 16px; height: 16px;"></i> Total Tables
+          </div>
+          <div style="font-size: 16px; font-weight: 700;">10</div>
+        </div>
+      </div>
+
+      <div class="card-box">
+        <div class="card-box-header">
+          <h3><i data-lucide="credit-card"></i> Recent Orders</h3>
+          <span style="font-size: 12px; color: #C8902E; font-weight: 700; cursor: pointer;">View All</span>
+        </div>
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Table No.</th>
+              <th>Time</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#1025</td>
+              <td>Table 4</td>
+              <td>10:12 AM</td>
+              <td>₹ 850</td>
+              <td><span class="pill served">Served</span></td>
+            </tr>
+            <tr>
+              <td>#1024</td>
+              <td>Table 2</td>
+              <td>09:58 AM</td>
+              <td>₹ 420</td>
+              <td><span class="pill ready">Ready</span></td>
+            </tr>
+            <tr>
+              <td>#1023</td>
+              <td>Table 7</td>
+              <td>09:41 AM</td>
+              <td>₹ 650</td>
+              <td><span class="pill preparing">Preparing</span></td>
+            </tr>
+            <tr>
+              <td>#1022</td>
+              <td>Table 1</td>
+              <td>09:25 AM</td>
+              <td>₹ 920</td>
+              <td><span class="pill pending">Pending</span></td>
+            </tr>
+            <tr>
+              <td>#1021</td>
+              <td>Table 5</td>
+              <td>08:50 AM</td>
+              <td>₹ 780</td>
+              <td><span class="pill served">Served</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FOOTER STRIP -->
+    <div class="footer-strip">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <i data-lucide="utensils" style="color: #C8902E;"></i>
+        <p>Good Food • Good Mood • DineEase</p>
+      </div>
+      <div style="font-size: 18px; color: #C8902E;">🌿</div>
+    </div>
+  </main>
+
+  <script>
+    lucide.createIcons();
+    function updateClock() {
+      const now = new Date();
+      const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
+      document.getElementById('liveDate').textContent = now.toLocaleDateString('en-US', options);
+      document.getElementById('liveTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
