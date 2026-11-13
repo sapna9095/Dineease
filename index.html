@@ -79,12 +79,20 @@
               <h2>Welcome Back!</h2>
               <p>Sign in to your account to continue</p>
 
+              <!-- Demo Credentials Box -->
+              <div style="background: #F7EFE1; border: 1px dashed #C8902E; border-radius: 8px; padding: 10px 12px; margin-bottom: 16px; font-size: 12.5px; color: #5B4028; line-height: 1.4;">
+                <div style="font-weight: 700; color: #8A5200; margin-bottom: 3px; display: flex; align-items: center; gap: 5px;">
+                  <span>🔑 Demo Login Credentials:</span>
+                </div>
+                <div>Username: <strong style="color: #2F2216;">admin</strong> | Password: <strong style="color: #2F2216;">admin123</strong></div>
+              </div>
+
               <form id="loginForm" novalidate>
                 <div class="field-group">
                   <label for="username" class="sr-only">Username</label>
                   <div class="input-wrap">
                     <span class="input-icon"><i data-lucide="user"></i></span>
-                    <input id="username" name="username" type="text" placeholder="Username" aria-invalid="false" />
+                    <input id="username" name="username" type="text" value="admin" placeholder="Username" aria-invalid="false" />
                   </div>
                   <div class="error-text" id="usernameError" aria-live="polite"></div>
                 </div>
@@ -93,7 +101,7 @@
                   <label for="password" class="sr-only">Password</label>
                   <div class="input-wrap password-wrap">
                     <span class="input-icon"><i data-lucide="lock"></i></span>
-                    <input id="password" name="password" type="password" placeholder="Password" aria-invalid="false" />
+                    <input id="password" name="password" type="password" value="admin123" placeholder="Password" aria-invalid="false" />
                     <button type="button" class="toggle-password" aria-label="Show password" aria-pressed="false">
                       <i data-lucide="eye"></i>
                     </button>
