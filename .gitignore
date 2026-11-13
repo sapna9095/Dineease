@@ -33,7 +33,8 @@ desktop.ini
 
 # Maven Wrapper & Output Logs
 *.log
-.mvn/timing.properties
+.mvn/
+cp.txt
 
 # Sensitive Credentials & Local Databases
 db.properties
